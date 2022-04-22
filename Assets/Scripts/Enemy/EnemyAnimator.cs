@@ -6,7 +6,6 @@ using UnityEngine;
 public class EnemyAnimator : BodyAnimator
 {
     private const string SuperAttack = "SuperAttack";
-    private float _superAttackAnimDuration;
     public Action OnSuperAttackCompleted;
     
     public override void SetIdle()
@@ -17,7 +16,6 @@ public class EnemyAnimator : BodyAnimator
 
     public void SetSuperAttack()
     {
-        _superAttackAnimDuration = _animator.GetCurrentAnimatorStateInfo(0).length;
         _animator.SetTrigger(SuperAttack);
     }
 
@@ -28,7 +26,9 @@ public class EnemyAnimator : BodyAnimator
     
     protected virtual IEnumerator SuperAttackCompleted(float chargingTime)
     {
-        yield return new WaitForSeconds(_superAttackAnimDuration - chargingTime);
+        yield return new WaitForEndOfFrame();
+        var superAttackAnimDuration = _animator.GetCurrentAnimatorStateInfo(1).length;
+        yield return new WaitForSeconds(superAttackAnimDuration - chargingTime);
         OnSuperAttackCompleted?.Invoke();
     }
 }
