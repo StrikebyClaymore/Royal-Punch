@@ -26,6 +26,11 @@ namespace New
         [SerializeField] private Hand _rightHand;
 
         private Vector3 _displacement;
+        [SerializeField] private bool _testMove;
+        [Range(0, 1)]
+        [SerializeField] private float _speedX;
+        [Range(0, 1)]
+        [SerializeField] private float _speedZ;
         
         private void Awake()
         {
@@ -61,6 +66,9 @@ namespace New
 
             /*_direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             _animation.SetDirection(_direction.x, _direction.z);*/
+
+            if (_testMove)
+                SetDirection(new Vector3(_speedX, 0, _speedZ));
         }
 
         private void FixedUpdate()
@@ -140,7 +148,7 @@ namespace New
             if (direction.z > 0 && TryMove(motion) == false)
                 direction.z = 0;
             
-            Debug.Log(direction);
+            //Debug.Log(direction);
             
             _direction = direction;
             _animation.SetDirection(direction.x, direction.z);
@@ -168,13 +176,12 @@ namespace New
             var coll = _collider;
             var radius = coll.radius * transform.localScale.x;
             var center = transform.position + coll.center;
-            var pos1 = center + Vector3.up * (coll.height / 2);
-            var pos2 = center - Vector3.up * (coll.height / 2);
+            var pos1 = center + Vector3.up * ((coll.height / 2) * transform.localScale.x);
+            var pos2 = center - Vector3.up * ((coll.height / 2) * transform.localScale.x);
             var maxDistance = _minDist;//displacement.magnitude;
             var direction = (_enemy.position - transform.position).normalized;
-            var mask = LayerMask.GetMask("Enemy");
-            
-            return !Physics.CapsuleCast(pos1, pos2, radius, direction, maxDistance, mask);
+            //Debug.Log(Physics.Raycast(transform.position, direction, maxDistance, mask));
+            return !Physics.Raycast(transform.position, direction, maxDistance); //!Physics.CapsuleCast(pos1, pos2, radius, direction, maxDistance, mask);
 
             /*CapsuleCollider coll = GetComponent<CapsuleCollider>();
             float radius = coll.radius * transform.localScale.x;
@@ -211,12 +218,28 @@ namespace New
 
         private void OnDrawGizmos()
         {
-            var coll = GetComponent<CapsuleCollider>();
+            if(_enemy == null)
+                return;
+
+            Gizmos.color = Color.green;
+            var direction = (_enemy.position - transform.position).normalized;
+            Gizmos.DrawLine(transform.position, transform.position + direction * _minDist);
+            
+            var coll = _collider;
             var center = transform.position + coll.center + _displacement;
-            var radius = coll.radius;
+            var radius = coll.radius * transform.localScale.x;
+            var pos1 = center + Vector3.up * (coll.height / 2) * transform.localScale.x;
+            var pos2 = center - Vector3.up * (coll.height / 2) * transform.localScale.x;
+            Gizmos.color = new Color(0.5f, 0.1f, 0.1f, 0.5f);
+            Gizmos.DrawSphere(center, radius);
+            Gizmos.color = new Color(0.5f, 0.5f, 1f, 1f);
+            Gizmos.DrawLine(pos1, pos2);
+            
             Gizmos.color = Color.red;
-            Gizmos.DrawLine(transform.position, transform.position + _displacement * 20f);
-            //Gizmos.DrawSphere(center, radius);// new Vector3(radius*2, 5, radius*2)
+            Gizmos.DrawLine(transform.position, transform.position + _displacement * 30f);
+
+            Gizmos.color = new Color(0.1f, 0.1f, 0.1f, 0.3f);
+            Gizmos.DrawSphere(_enemy.position, 0.5f*7f);
         }
     }
 }
