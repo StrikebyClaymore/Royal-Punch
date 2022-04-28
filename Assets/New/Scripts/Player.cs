@@ -27,9 +27,9 @@ namespace New
 
         private Vector3 _displacement;
         [SerializeField] private bool _testMove;
-        [Range(0, 1)]
+        [Range(-1, 1)]
         [SerializeField] private float _speedX;
-        [Range(0, 1)]
+        [Range(-1, 1)]
         [SerializeField] private float _speedZ;
         
         private void Awake()

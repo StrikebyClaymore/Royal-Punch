@@ -25,8 +25,7 @@ namespace New
         public override void GetHit(Vector3 hitPoint)
         {
             base.GetHit(hitPoint);
-            var direction = (hitPoint - transform.position).normalized;
-            _animationRigging.AddHitReaction(direction);
+            _animationRigging.AddHitReaction(hitPoint);
         }
 
         private void FixedUpdate()

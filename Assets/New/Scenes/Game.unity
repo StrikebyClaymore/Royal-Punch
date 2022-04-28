@@ -241,6 +241,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 31865471}
+  TargetOffset: 1
+  ReturnSpeed: 5
 --- !u!1 &32241786
 GameObject:
   m_ObjectHideFlags: 0
@@ -1208,6 +1210,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BoxerStickman
+      objectReference: {fileID: 0}
+    - target: {fileID: 2769701966304955521, guid: 189bc51183b914b458ea4460c3cfb7a3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2769701966304955521, guid: 189bc51183b914b458ea4460c3cfb7a3,
         type: 3}
@@ -2539,7 +2546,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1
+  m_Radius: 1.4
   m_Height: 6
   m_Direction: 1
   m_Center: {x: 0, y: 2.5, z: 0}
@@ -2592,6 +2599,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 32241787}
+  TargetOffset: 1
+  ReturnSpeed: 5
 --- !u!1 &1041112061
 GameObject:
   m_ObjectHideFlags: 0
@@ -13505,7 +13514,7 @@ MonoBehaviour:
   _hitParticles: {fileID: 394962902}
   _moveSpeed: 8
   _rotationSpeed: 100
-  _minDist: 3.5
+  _minDist: 2
   _leftHand: {fileID: 7164758217175847773}
   _rightHand: {fileID: 5272021650481128980}
   _testMove: 0
