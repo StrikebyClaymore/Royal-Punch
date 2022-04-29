@@ -145,8 +145,8 @@ namespace New
             if (Vector3.Distance(transform.position + (_moveSpeed * Time.fixedDeltaTime * direction), _enemy.position) < _minDist && direction.z > 0)
                 direction.z = 0;*/
 
-            if (direction.z > 0 && TryMove(motion) == false)
-                direction.z = 0;
+            /*if (direction.z > 0 && TryMove(motion) == false)
+                direction.z = 0;*/
             
             //Debug.Log(direction);
             
