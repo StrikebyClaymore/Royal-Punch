@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace New
@@ -14,9 +15,9 @@ namespace New
         private AnimationBase _animation;
         private RagdollSystem _ragdollSystem;
         private AnimationRigging _animationRigging;
+        private GameCamera _camera;
 
         [SerializeField] private Rigidbody _chest;
-        private Vector3 _chestBasePosition;
         [SerializeField] private Transform _cameraTarget;
 
 
@@ -26,15 +27,20 @@ namespace New
             _character = GetComponent<CharacterController>();
             _ragdollSystem = GetComponent<RagdollSystem>();
             _animationRigging = GetComponent<AnimationRigging>();
+        }
 
-            _chestBasePosition = _chest.position;
+        private void Start()
+        {
+            _camera = GameManager.Camera2;
         }
 
         private void FixedUpdate()
         {
             var newPosition = _chest.transform.position;
-            newPosition.y = 0;
+            newPosition.y = 0f;
             _cameraTarget.position = newPosition;
+            _camera.UpdateCamera();
+            //Debug.Log($"{Time.fixedTime} {newPosition}");
         }
 
         public void Hit()
@@ -44,17 +50,19 @@ namespace New
             _ragdollSystem.On();
             GameManager.Camera2.SetFall(true);
             _chest.AddForce(-transform.forward * 25000f);
-            
-            Invoke(nameof(Up), 3f);
+
+            //StartCoroutine(Up());
         }
 
         public void Up()
         {
+            //yield return new WaitForSeconds(3f);
             enabled = false;
             _ragdollSystem.Off();
-            var newPosition = _chest.position - _chestBasePosition;
-            newPosition.y = 0f;
-            transform.Translate(newPosition);
+            transform.Translate(_cameraTarget.localPosition + new Vector3(0, 0.5f, 0), Space.Self);
+            _cameraTarget.localPosition = Vector3.zero;
+            //Debug.Log($"{transform.position} {_cameraTarget.position} {_cameraTarget.position + new Vector3(0, 0.5f, 0)}");
+            //transform.position = ;
             _character.enabled = true;
             GameManager.Camera2.SetFall(false);
         }

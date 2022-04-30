@@ -37,12 +37,6 @@ namespace New
 
         public void UpdateCamera()
         {
-
-            var _target = _player;
-            if (_playerIsFall)
-                _target = _cameraTarget;
-            
-            
             var relativePos = _enemy.position - transform.position;
             var targetRotation = Quaternion.LookRotation(relativePos, Vector3.up) *
                                  Quaternion.Euler(new Vector3(_rotationOffset, 0, 0));
@@ -50,13 +44,13 @@ namespace New
                 Quaternion.Lerp(transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
             
 
-            var targetPosition = _target.rotation * _offset + _target.position;
+            var targetPosition = _cameraTarget.rotation * _offset + _cameraTarget.position;
             transform.position = Vector3.Lerp(transform.position, targetPosition, _moveSpeed * Time.fixedDeltaTime);
         }
 
-        public void SetFall(bool b)
+        public void SetFall(bool isFall)
         {
-            _playerIsFall = b;
+            _playerIsFall = isFall;
         }
 
         private Quaternion GetRotation()

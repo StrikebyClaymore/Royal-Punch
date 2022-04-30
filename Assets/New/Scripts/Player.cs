@@ -70,6 +70,11 @@ namespace New
                     body.upSystem.Hit();
                 }
             }
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                upSystem.Up();
+            }
         }
 
         private void FixedUpdate()
