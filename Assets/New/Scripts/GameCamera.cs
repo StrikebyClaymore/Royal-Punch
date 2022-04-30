@@ -17,7 +17,6 @@ namespace New
 
         [SerializeField] private Transform _cameraTarget;
         private bool _playerIsFall;
-        private Transform _target;
 
         private void Awake()
         {
@@ -30,33 +29,34 @@ namespace New
             _player = GameManager.Player2.transform;
             _enemy = GameManager.Enemy2.transform;
 
-            _target = _player;
+            //_cameraTarget = _player;
 
-            _offset = transform.position - _target.position;
+            _offset = transform.position - _player.position;
             _rotationOffset = Quaternion.Angle(transform.rotation, GetRotation());
         }
 
         public void UpdateCamera()
         {
-            /*transform.LookAt(_enemy);
-            transform.position = _player.rotation * _offset + _player.position;*/
 
-            if (_target != _cameraTarget)
-            {
-                var relativePos = _enemy.position - transform.position;
-                var targetRotation = Quaternion.LookRotation(relativePos, Vector3.up) *
-                                     Quaternion.Euler(new Vector3(_rotationOffset, 0, 0));
-                transform.rotation =
-                    Quaternion.Lerp(transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
-            }
+            var _target = _player;
+            if (_playerIsFall)
+                _target = _cameraTarget;
+            
+            
+            var relativePos = _enemy.position - transform.position;
+            var targetRotation = Quaternion.LookRotation(relativePos, Vector3.up) *
+                                 Quaternion.Euler(new Vector3(_rotationOffset, 0, 0));
+            transform.rotation =
+                Quaternion.Lerp(transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
+            
 
-            var targetPosition = _player.rotation * _offset + _target.position;
+            var targetPosition = _target.rotation * _offset + _target.position;
             transform.position = Vector3.Lerp(transform.position, targetPosition, _moveSpeed * Time.fixedDeltaTime);
         }
 
-        public void ChangeTarget()
+        public void SetFall(bool b)
         {
-            _target = _target == _cameraTarget ? _player : _cameraTarget;
+            _playerIsFall = b;
         }
 
         private Quaternion GetRotation()
