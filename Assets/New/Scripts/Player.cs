@@ -9,11 +9,12 @@ namespace New
 {
     [RequireComponent(typeof(AnimationBase),
         typeof(CharacterController),
-        typeof(BodyUpSystem))]
+        typeof(RagdollSystem))]
     public class Player : Body
     {
         private CharacterController _character;
         private AnimationBase _animation;
+        private RagdollSystem _ragdollSystem;
         [SerializeField] private HitParticles _hitParticles;
         private Transform _enemy;
         private GameCamera _camera;
@@ -34,7 +35,7 @@ namespace New
             GameManager.Player2 = this;
             _animation = GetComponent<AnimationBase>();
             _character = GetComponent<CharacterController>();
-            upSystem = GetComponent<BodyUpSystem>();
+            _ragdollSystem = GetComponent<RagdollSystem>();
         }
 
         private void Start()
@@ -59,21 +60,14 @@ namespace New
             if (_testMove)
                 SetDirection(new Vector3(_speedX, 0, _speedZ));
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                RaycastHit hit;
-                Ray ray = GameManager.Camera2.gameCamera.ScreenPointToRay(Input.mousePosition);
-
-                if (!Physics.Raycast(ray, out hit)) return;
-                if (hit.collider.gameObject.TryGetComponent<Body>(out var body))
-                {
-                    body.upSystem.Hit();
-                }
+                _ragdollSystem.StartFall();
             }
 
             if (Input.GetKeyDown(KeyCode.R))
             {
-                upSystem.Up();
+                _ragdollSystem.StartStandUp();
             }
         }
 

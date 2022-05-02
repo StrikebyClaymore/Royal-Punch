@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
 
 namespace New
 {
     [RequireComponent(typeof(AnimationBase),
-        typeof(CharacterController),
-        typeof(RagdollSystem))]
+        typeof(CharacterController))]
     [RequireComponent(typeof(AnimationRigging),
         typeof(CharacterController))]
     public class BodyUpSystem : MonoBehaviour
@@ -20,6 +18,18 @@ namespace New
         [SerializeField] private Rigidbody _chest;
         [SerializeField] private Transform _cameraTarget;
 
+        [SerializeField] private Transform hl;
+        [SerializeField] private Transform hr;
+        [SerializeField] private Transform thl;
+        [SerializeField] private Transform thr;
+
+        private enum TargetStates
+        {
+            Follow,
+            Up
+        }
+
+        private TargetStates _targetState = TargetStates.Follow;
 
         private void Awake()
         {
@@ -36,18 +46,25 @@ namespace New
 
         private void FixedUpdate()
         {
-            var newPosition = _chest.transform.position;
-            newPosition.y = 0f;
-            _cameraTarget.position = newPosition;
-            _camera.UpdateCamera();
-            //Debug.Log($"{Time.fixedTime} {newPosition}");
+            if (_targetState == TargetStates.Follow)
+            {
+
+            }
+            else if (_targetState == TargetStates.Up)
+            {
+                var newPosition = _chest.transform.position;
+                newPosition.y = 0f;
+                _cameraTarget.position = newPosition;
+                _camera.UpdateCamera();
+                //Debug.Log($"{Time.fixedTime} {newPosition}");
+            }
         }
 
         public void Hit()
         {
-            enabled = true;
+            _targetState = TargetStates.Up;
             _character.enabled = false;
-            _ragdollSystem.On();
+            //_ragdollSystem.On();
             GameManager.Camera2.SetFall(true);
             _chest.AddForce(-transform.forward * 25000f);
 
@@ -56,9 +73,14 @@ namespace New
 
         public void Up()
         {
+            _targetState = TargetStates.Follow;
             //yield return new WaitForSeconds(3f);
-            enabled = false;
-            _ragdollSystem.Off();
+
+            //thl.position = hl.position;
+            //thr.position = hr.position;
+
+            //_ragdollSystem.Off();
+            //_animation.StartUp();
             transform.Translate(_cameraTarget.localPosition + new Vector3(0, 0.5f, 0), Space.Self);
             _cameraTarget.localPosition = Vector3.zero;
             //Debug.Log($"{transform.position} {_cameraTarget.position} {_cameraTarget.position + new Vector3(0, 0.5f, 0)}");

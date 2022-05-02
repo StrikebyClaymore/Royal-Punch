@@ -11,6 +11,7 @@ namespace New
         private readonly int _vertical = Animator.StringToHash("Vertical");
         private readonly int _move = Animator.StringToHash("Move");
         private readonly int _punch = Animator.StringToHash("Punch");
+        //private readonly int _up = Animator.StringToHash("Up");
 
         private void Awake()
         {
@@ -30,5 +31,13 @@ namespace New
             _animator.SetFloat(_horizontal, horizontal);
             _animator.SetFloat(_vertical, vertical);
         }
+
+        //public void StartUp() => _animator.SetTrigger(_up);
+
+        public void On() => _animator.enabled = true;
+        
+        public void Off() => _animator.enabled = false;
+        
+        public void Toggle(bool enable) => _animator.enabled = enable;
     }
 }
