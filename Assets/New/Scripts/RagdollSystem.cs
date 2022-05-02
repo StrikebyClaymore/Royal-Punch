@@ -94,9 +94,12 @@ namespace New
             yield return new WaitForSeconds(time);
 
             if(enable == false)
-                _chestRb.AddForce(-transform.forward * 25000f);
+                _chestRb.AddForce(-transform.forward * 25000f); // TODO: Сделать силу толка зависящую от удара
             else
+            {
                 transform.position = _cameraTarget.position + new Vector3(0, 0.5f, 0);
+                _character.enabled = true;
+            }
 
             _animation.Toggle(enable);
         }
