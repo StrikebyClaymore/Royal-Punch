@@ -105,7 +105,7 @@ namespace New
             _direction = Vector3.zero;
         }
 
-        private void Rotate()
+        public void Rotate()
         {
             var relativePos = _enemy.position - transform.position;
             var targetRotation = Quaternion.LookRotation(relativePos, Vector3.up);

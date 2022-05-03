@@ -144,12 +144,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 32241786}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 4, z: 0}
+  m_LocalRotation: {x: 0.00000019079457, y: -0.000000022413438, z: 0.0000000028016849,
+    w: 1}
+  m_LocalPosition: {x: 0, y: 4.4185877, z: -0.112154305}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1708999472}
-  m_RootOrder: 1
+  m_Father: {fileID: 1800025411}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &96561382
 GameObject:
@@ -162,7 +163,7 @@ GameObject:
   - component: {fileID: 96561383}
   - component: {fileID: 96561385}
   - component: {fileID: 96561384}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Conus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -358,13 +359,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 913588642}
-        m_MethodName: SuperAttack
+      - m_Target: {fileID: 913588640}
+        m_MethodName: StartSuperAttack
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1191,7 +1192,7 @@ GameObject:
   - component: {fileID: 834542505}
   - component: {fileID: 834542507}
   - component: {fileID: 834542506}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1458,6 +1459,12 @@ CapsuleCollider:
   m_Height: 0.09264699
   m_Direction: 1
   m_Center: {x: 0, y: 0.046323497, z: 0}
+--- !u!4 &905780194 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4903553122278247476, guid: 5f5328dc06c731e4bbf411a3573b7514,
+    type: 3}
+  m_PrefabInstance: {fileID: 913588559}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &913588559
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1465,6 +1472,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 340506775}
     m_Modifications:
+    - target: {fileID: 493730521268721286, guid: 5f5328dc06c731e4bbf411a3573b7514,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 493730521268721286, guid: 5f5328dc06c731e4bbf411a3573b7514,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 493730521268721286, guid: 5f5328dc06c731e4bbf411a3573b7514,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 493730521268721286, guid: 5f5328dc06c731e4bbf411a3573b7514,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 493730521268721286, guid: 5f5328dc06c731e4bbf411a3573b7514,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 493730521268721286, guid: 5f5328dc06c731e4bbf411a3573b7514,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 493730521268721286, guid: 5f5328dc06c731e4bbf411a3573b7514,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2876727248111966895, guid: 5f5328dc06c731e4bbf411a3573b7514,
         type: 3}
       propertyPath: m_Enabled
@@ -2698,6 +2740,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d82c94889afb48b2a190f4485bbde3da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &913588640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913588604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c57e1a960b7a88749b1a1a062a9a7907, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _config: {fileID: 11400000, guid: 0d2c38a650df2a8498e81f3320a8f413, type: 2}
+  _circleEffect: {fileID: 834542504}
+  _conusEffect: {fileID: 96561382}
+  _SuperAttackChargeTime: 1
 --- !u!114 &913588642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2725,6 +2783,7 @@ MonoBehaviour:
   _target: {fileID: 32241787}
   TargetOffset: 1
   ReturnSpeed: 5
+  _head: {fileID: 905780194}
 --- !u!143 &913588645
 CharacterController:
   m_ObjectHideFlags: 0
@@ -13020,7 +13079,7 @@ GameObject:
   - component: {fileID: 1675125976}
   - component: {fileID: 1675125975}
   - component: {fileID: 1675125974}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: SuperAttackFields
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13278,7 +13337,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1800025411}
-  - {fileID: 32241787}
   m_Father: {fileID: 913588560}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13294,7 +13352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70b342d8ce5c2fd48b8fa3147d48d1d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Weight: 1
+  m_Weight: 0
   m_Effectors:
   - m_Transform: {fileID: 32241787}
     m_Style:
@@ -13390,7 +13448,7 @@ GameObject:
   - component: {fileID: 1800025411}
   - component: {fileID: 1800025412}
   m_Layer: 0
-  m_Name: Const
+  m_Name: HItConst
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13406,7 +13464,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 32241787}
   m_Father: {fileID: 1708999472}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13434,7 +13493,7 @@ MonoBehaviour:
     m_MaintainTargetPositionOffset: 0
     m_MaintainTargetRotationOffset: 0
   m_SourceObjectsGUIToggle: 1
-  m_SettingsGUIToggle: 0
+  m_SettingsGUIToggle: 1
 --- !u!144 &1911800948
 CharacterJoint:
   m_ObjectHideFlags: 0

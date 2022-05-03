@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace New
@@ -12,6 +13,8 @@ namespace New
         private readonly int _move = Animator.StringToHash("Move");
         private readonly int _punch = Animator.StringToHash("Punch");
 
+        public Action OnAnimationCompleted;
+        
         private void Awake()
         {
             animator = GetComponent<Animator>();
@@ -36,5 +39,22 @@ namespace New
         public void Off() => animator.enabled = false;
         
         public void Toggle(bool enable) => animator.enabled = enable;
+
+        public void SetSpeed(float speed) => animator.speed = speed;
+
+        public void AddAnimationCompletedEvent(int layerIdx, float secondsPassed)
+        {
+            StartCoroutine(AnimationCompleted(layerIdx, secondsPassed));
+        }
+    
+        protected virtual IEnumerator AnimationCompleted(int layerIdx = 0, float secondsPassed = 0)
+        {
+            yield return new WaitForEndOfFrame();
+            var animDuration = GetAnimationTime(layerIdx);
+            yield return new WaitForSeconds(animDuration - secondsPassed);
+            OnAnimationCompleted?.Invoke();
+        }
+        
+        private float GetAnimationTime(int layerIdx) => animator.GetCurrentAnimatorStateInfo(layerIdx).length;
     }
 }

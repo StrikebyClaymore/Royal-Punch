@@ -4,12 +4,14 @@ using UnityEngine;
 namespace New
 {
     [RequireComponent(typeof(AnimationBase),
-        typeof(CharacterController))]
+        typeof(CharacterController),
+        typeof(Player))]
     public class RagdollSystem : MonoBehaviour
     {
         private AnimationBase _animation;
         private CharacterController _character;
         private GameCamera _camera;
+        private Player _player;
     
         private Rigidbody[] _bones;
         private Quaternion[] rotations;
@@ -28,6 +30,7 @@ namespace New
         {
             _animation = GetComponent<AnimationBase>();
             _character = GetComponent<CharacterController>();
+            _player = GetComponent<Player>();
             _bones = GetComponentsInChildren<Rigidbody>();
             rotations = new Quaternion[_bones.Length];
         }
@@ -47,13 +50,14 @@ namespace New
                 _cameraTarget.position = newPosition;
 
                 _camera.UpdateCamera();
+                _player.Rotate();
             }
             else
             {
                 for (var i = 0; i < _bones.Length; i++)
                 {
-                    _bones[i].transform.rotation = Quaternion.Lerp(_bones[i].transform.rotation, rotations[i], Time.deltaTime * _rotationSpeed);
-                    _hips.position = Vector3.MoveTowards(_hips.position, _hipsPosition, Time.deltaTime * _movementSpeed);
+                    _bones[i].transform.rotation = Quaternion.Lerp(_bones[i].transform.rotation, rotations[i], Time.fixedDeltaTime * _rotationSpeed);
+                    _hips.position = Vector3.MoveTowards(_hips.position, _hipsPosition, Time.fixedDeltaTime * _movementSpeed);
                 }
             }
         }
@@ -98,6 +102,7 @@ namespace New
             else
             {
                 transform.position = _cameraTarget.position + new Vector3(0, 0.5f, 0);
+                _cameraTarget.localPosition = Vector3.zero;
                 _character.enabled = true;
             }
 

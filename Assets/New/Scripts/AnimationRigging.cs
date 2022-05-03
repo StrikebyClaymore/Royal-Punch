@@ -8,11 +8,15 @@ namespace New
         [SerializeField] private Transform _target;
         private Vector3 _targetBasePosition;
         [SerializeField] private float TargetOffset = 1f; 
-        [SerializeField] private float ReturnSpeed = 5f;
+        [SerializeField] private float ReturnSpeed = 100f;
+
+        [SerializeField] private Transform _head;
+        private Vector3 _targetOffset;
 
         private void Awake()
         {
-            _targetBasePosition = _target.position;
+            //_targetBasePosition = _target.position;
+            _targetOffset = _target.position - _head.position;
         }
 
         public void AddHitReaction(Vector3 hitPoint)
@@ -24,11 +28,12 @@ namespace New
 
         private void FixedUpdate()
         {
+            _targetBasePosition = _head.position + _targetOffset;
             if(Vector3.Distance(_target.position, _targetBasePosition) < ReturnSpeed * Time.fixedDeltaTime)
                 return;
             var direction = (_target.position - _targetBasePosition).normalized;
             direction.y = 0;
-            var transition = ReturnSpeed * Time.fixedDeltaTime * direction;
+            var transition = (ReturnSpeed * Time.fixedDeltaTime * direction);
             _target.Translate(-transition, Space.World);
         }
     }

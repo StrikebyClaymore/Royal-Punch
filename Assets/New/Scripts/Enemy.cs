@@ -25,11 +25,6 @@ namespace New
             _player = GameManager.Player2.transform;
         }
 
-        public void SuperAttack(int number)
-        {
-            _animation.StartSuper(number);
-        }
-        
         public override void GetHit(Vector3 hitPoint)
         {
             base.GetHit(hitPoint);
