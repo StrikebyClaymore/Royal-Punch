@@ -18,3 +18,4 @@ MonoBehaviour:
   endNearPlane: 0.1
   startFarPlane: 0
   endFarPlane: 1
+  _speed: 8

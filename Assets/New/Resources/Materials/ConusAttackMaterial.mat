@@ -61,7 +61,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _FarPlane: 0
+    - _FarPlane: 1
     - _FieldOfView: 45
     - _GlossMapScale: 1
     - _Glossiness: 0.5

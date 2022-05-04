@@ -13,6 +13,8 @@ namespace New
         private readonly int _move = Animator.StringToHash("Move");
         private readonly int _punch = Animator.StringToHash("Punch");
 
+        private float _animDuration;
+        
         public Action OnAnimationCompleted;
         
         private void Awake()
@@ -44,14 +46,13 @@ namespace New
 
         public void AddAnimationCompletedEvent(int layerIdx, float secondsPassed)
         {
-            StartCoroutine(AnimationCompleted(layerIdx, secondsPassed));
+            _animDuration = GetAnimationTime(layerIdx);
+            StartCoroutine(AnimationCompleted(secondsPassed));
         }
     
-        protected virtual IEnumerator AnimationCompleted(int layerIdx = 0, float secondsPassed = 0)
+        protected virtual IEnumerator AnimationCompleted(float secondsPassed = 0)
         {
-            yield return new WaitForEndOfFrame();
-            var animDuration = GetAnimationTime(layerIdx);
-            yield return new WaitForSeconds(animDuration - secondsPassed);
+            yield return new WaitForSeconds(_animDuration - secondsPassed);
             OnAnimationCompleted?.Invoke();
         }
         

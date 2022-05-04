@@ -21,6 +21,10 @@ namespace New
         private static readonly int FarPlane = Shader.PropertyToID("_FarPlane");
         private float _nearPlane;
         private float _farPlane;
+        
+        [SerializeField] private float _speed = 1f;
+
+        public Action OnAttack;
 
         public void Process(EnemyAttack.SuperStates state)
         {
@@ -29,9 +33,11 @@ namespace New
                 _nearPlane = Mathf.Min(endNearPlane, _nearPlane + Time.deltaTime);
                 _farPlane = Mathf.Min(endFarPlane, _farPlane + Time.deltaTime);
             }
-            else if (state == EnemyAttack.SuperStates.Continue)
+            else if (state == EnemyAttack.SuperStates.Attack)
             {
-                _nearPlane = Mathf.Min(1, _nearPlane + Time.deltaTime);
+                _nearPlane = Mathf.Min(1, _nearPlane + _speed * Time.deltaTime);
+                if(_nearPlane == 1)
+                    OnAttack?.Invoke();
             }
             _material.SetFloat(NearPlane, _nearPlane);
             _material.SetFloat(FarPlane, _farPlane);
@@ -44,5 +50,6 @@ namespace New
             _material.SetFloat(NearPlane, startNearPlane);
             _material.SetFloat(FarPlane, startFarPlane);
         }
+        
     }
 }
