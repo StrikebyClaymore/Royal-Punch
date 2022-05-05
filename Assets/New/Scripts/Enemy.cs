@@ -11,7 +11,6 @@ namespace New
     {
         private AnimationRigging _animationRigging;
         private AnimationEnemy _animation;
-        private Transform _player;
 
         private void Awake()
         {
@@ -20,20 +19,10 @@ namespace New
             _animation = GetComponent<AnimationEnemy>();
         }
 
-        private void Start()
-        {
-            _player = GameManager.Player2.transform;
-        }
-
         public override void GetHit(Vector3 hitPoint)
         {
             base.GetHit(hitPoint);
             _animationRigging.AddHitReaction(hitPoint);
-        }
-
-        private void FixedUpdate()
-        {
-            transform.LookAt(_player);
         }
     }
 }

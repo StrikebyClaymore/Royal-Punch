@@ -9,14 +9,15 @@ namespace New
     public class EnemyAttack : MonoBehaviour
     {
         private AnimationEnemy _animation;
+        private Transform _player;
         [SerializeField] private EnemyConfig _config;
-        [SerializeField] private GameObject _circleEffect;
-        [SerializeField] private GameObject _conusEffect;
+        [SerializeField] private AttackEffects _effects;
         private const int SuperAttackLayer = 0;
         private Timer _superAttackTimer;
         [SerializeField] private int _SuperAttackChargeTime;
-        private float _animationSecondsPassed;
+        private float _animationPercentPassed;
         private SuperAttackConfig _currentSuperAttack;
+        [SerializeField] private float _rotationSpeed = 1f;
 
         public enum SuperStates
         {
@@ -30,6 +31,12 @@ namespace New
         }
         private SuperStates _superState = SuperStates.None;
 
+        /*public enum SuperTypes
+        {
+            Circle,
+            Conus
+        }*/
+        
         private void Awake()
         {
             _animation = GetComponent<AnimationEnemy>();
@@ -40,17 +47,24 @@ namespace New
 
         private void Start()
         {
-            ConnectActions();
+            _player = GameManager.Player2.transform;
         }
 
         private void Update()
         {
-            if(_superState == SuperStates.Charge || _superState == SuperStates.Attack)
+            if (_superState == SuperStates.Charge || _superState == SuperStates.Attack)
+            {
                 _currentSuperAttack.Process(_superState);
-            else if (_superState == SuperStates.Start)
-                _animationSecondsPassed += Time.deltaTime;
+            }
         }
 
+        private void FixedUpdate()
+        {
+            if(_superState != SuperStates.None)
+                return;
+            Rotate();
+        }
+        
         public void StartSuperAttackPressed(int attackNumber)
         {
             ChangeSuperState(SuperStates.Start);
@@ -62,11 +76,12 @@ namespace New
         public void StartChargeSuper(float animationSecondsPassed)
         {
             ChangeSuperState(SuperStates.Charge);
-            _animationSecondsPassed = animationSecondsPassed;
+            _animationPercentPassed = animationSecondsPassed;
             _animation.SetSpeed(0);
+            _animation.OnAnimationCompleted += SuperAttackEnd;
             _superAttackTimer.Enable();
 
-            SuperSetVisible(true);
+            _effects.AreaSetVisible(_currentSuperAttack.id, true);
         }
 
         private void SuperAttackTimerTimeOut()
@@ -79,13 +94,14 @@ namespace New
         {
             ChangeSuperState(SuperStates.Continue);
             yield return new WaitForEndOfFrame();
-            _animation.AddAnimationCompletedEvent(SuperAttackLayer, _animationSecondsPassed);
+            _animation.AddAnimationCompletedEvent(SuperAttackLayer, _animationPercentPassed);
             _superAttackTimer.ResetTime();
         }
 
         private void ApplySuperAttack()
         {
             ChangeSuperState(SuperStates.Attack);
+            _effects.Play(_currentSuperAttack.id);
         }
         
         private void SuperAttack()
@@ -96,25 +112,36 @@ namespace New
         private void SuperAttackEnd()
         {
             ChangeSuperState(SuperStates.Tried);
-            SuperSetVisible(false);
-            _animationSecondsPassed = 0;
+            _effects.AreaSetVisible(_currentSuperAttack.id, false);
+            _animationPercentPassed = 0;
             _currentSuperAttack.ResetParams();
+            _animation.OnAnimationCompleted -= SuperAttackEnd;
             _currentSuperAttack.OnAttack -= SuperAttack;
+            StartCoroutine(TriedContinue());
+        }
+
+        private IEnumerator TriedContinue()
+        {
+            yield return new WaitForEndOfFrame();
+            _animation.OnAnimationCompleted += TriedEnd;
+            _animation.AddAnimationCompletedEvent(SuperAttackLayer);
+        }
+        
+        private void TriedEnd()
+        {
+            ChangeSuperState(SuperStates.None);
+            _animation.OnAnimationCompleted -= TriedEnd;
         }
         
         private void ChangeSuperState(SuperStates newState) => _superState = newState;
 
-        private void SuperSetVisible(bool visible)
+        private void Rotate()
         {
-            if(_currentSuperAttack.id == 1 || _currentSuperAttack.id == 2)
-                _circleEffect.SetActive(visible);
-            else if (_currentSuperAttack.id == 3)
-                _conusEffect.SetActive(visible);
+            var relativePos = _player.position - transform.position;
+            var targetRotation = Quaternion.LookRotation(relativePos, Vector3.up);
+            var rotation = Quaternion.Lerp(transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
+            transform.rotation = rotation;
         }
         
-        private void ConnectActions()
-        {
-            _animation.OnAnimationCompleted += SuperAttackEnd;
-        }
     }
 }

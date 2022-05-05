@@ -12,7 +12,7 @@ namespace New
         private readonly int _vertical = Animator.StringToHash("Vertical");
         private readonly int _move = Animator.StringToHash("Move");
         private readonly int _punch = Animator.StringToHash("Punch");
-
+        
         private float _animDuration;
         
         public Action OnAnimationCompleted;
@@ -44,9 +44,10 @@ namespace New
 
         public void SetSpeed(float speed) => animator.speed = speed;
 
-        public void AddAnimationCompletedEvent(int layerIdx, float secondsPassed)
+        public void AddAnimationCompletedEvent(int layerIdx, float percentPassed = 0)
         {
             _animDuration = GetAnimationTime(layerIdx);
+            var secondsPassed = (_animDuration / 100) * percentPassed;
             StartCoroutine(AnimationCompleted(secondsPassed));
         }
     
