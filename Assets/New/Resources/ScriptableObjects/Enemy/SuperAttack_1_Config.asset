@@ -14,8 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   _material: {fileID: 2100000, guid: ce1b4e0b714ded646a87ebd4cbb8e230, type: 2}
-  startNearPlane: 0
-  endNearPlane: 0.5
-  startFarPlane: 0.2
-  endFarPlane: 1
+  _startNearPlane: 0
+  _endNearPlane: 0.5
+  _startFarPlane: 0.2
+  _endFarPlane: 1
+  _startColliderCenter: {x: 0, y: 0, z: 0}
+  _startColliderSize: {x: 2.2, y: 0, z: 0}
+  _endColliderCenter: {x: 0, y: 0, z: 0}
+  _endColliderSize: {x: 11.17, y: 0, z: 0}
+  collider: {fileID: 0}
   _speed: 4

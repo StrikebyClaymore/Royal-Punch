@@ -128,7 +128,7 @@ namespace New
         {
             _animation.StopMove();
         }
-        
+
         private void ConnectActions()
         {
             GameManager.PlayerController.OnDirectionChanged += SetDirection;

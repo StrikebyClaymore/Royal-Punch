@@ -17,8 +17,8 @@ TagManager:
   - Enemy
   - PlayerHand
   - EnemyHand
-  - 
-  - 
+  - SuperAttack
+  - PlayerPartticlesDetecter
   - 
   - 
   - 

@@ -12,6 +12,7 @@ namespace New
         private Transform _player;
         [SerializeField] private EnemyConfig _config;
         [SerializeField] private AttackEffects _effects;
+        [SerializeField] private AttackColliders _colliders;
         private const int SuperAttackLayer = 0;
         private Timer _superAttackTimer;
         [SerializeField] private int _SuperAttackChargeTime;
@@ -80,7 +81,8 @@ namespace New
             _animation.SetSpeed(0);
             _animation.OnAnimationCompleted += SuperAttackEnd;
             _superAttackTimer.Enable();
-
+            
+            _colliders.SetCollider(_currentSuperAttack);
             _effects.AreaSetVisible(_currentSuperAttack.id, true);
         }
 
@@ -101,6 +103,7 @@ namespace New
         private void ApplySuperAttack()
         {
             ChangeSuperState(SuperStates.Attack);
+            _colliders.SetEnable(_currentSuperAttack.id);
             _effects.Play(_currentSuperAttack.id);
         }
         
@@ -118,7 +121,7 @@ namespace New
             _animation.OnAnimationCompleted -= SuperAttackEnd;
             _currentSuperAttack.OnAttack -= SuperAttack;
             StartCoroutine(TriedContinue());
-        }
+        }       
 
         private IEnumerator TriedContinue()
         {
