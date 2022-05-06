@@ -103,13 +103,14 @@ namespace New
         private void ApplySuperAttack()
         {
             ChangeSuperState(SuperStates.Attack);
-            _colliders.SetEnable(_currentSuperAttack.id);
+            _colliders.SetEnable(_currentSuperAttack.id, true);
             _effects.Play(_currentSuperAttack.id);
         }
         
         private void SuperAttack()
         {
             ChangeSuperState(SuperStates.AttackEnd);
+            _colliders.SetEnable(_currentSuperAttack.id, false);
         }
         
         private void SuperAttackEnd()

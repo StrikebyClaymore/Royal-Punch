@@ -21,27 +21,28 @@ namespace New
             }
         }
 
-        public void SetEnable(int type)
+        public void SetEnable(int type, bool enable)
         {
             switch (type)
             {
                 case 1:
                 case 2:
-                    _circleCollder.enabled = true;
+                    _circleCollder.enabled = enable;
                     break;
                 case 3:
-                    _conusCollder.enabled = true;
+                    _conusCollder.enabled = enable;
                     break;
             }
         }
         
         private void OnTriggerEnter(Collider other)
         {
-            if(other.gameObject.TryGetComponent<Player>(out var player))
+            if(other.gameObject.TryGetComponent<IHitable>(out var player))
             {
                 Debug.Log("TRIGGER");
                 _circleCollder.enabled = false;
                 _conusCollder.enabled = false;
+                player.KnockOut(25000f);
             }
         }
     }

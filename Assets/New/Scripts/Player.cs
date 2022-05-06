@@ -7,14 +7,10 @@ using UnityEngine.WSA;
 
 namespace New
 {
-    [RequireComponent(typeof(AnimationBase),
-        typeof(CharacterController),
-        typeof(RagdollSystem))]
+    [RequireComponent(typeof(CharacterController))]
     public class Player : Body
     {
         private CharacterController _character;
-        private AnimationBase _animation;
-        private RagdollSystem _ragdollSystem;
         [SerializeField] private HitParticles _hitParticles;
         private Transform _enemy;
         private GameCamera _camera;
@@ -30,12 +26,11 @@ namespace New
         [Range(-1, 1)]
         [SerializeField] private float _speedZ;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             GameManager.Player2 = this;
-            _animation = GetComponent<AnimationBase>();
             _character = GetComponent<CharacterController>();
-            _ragdollSystem = GetComponent<RagdollSystem>();
         }
 
         private void Start()
@@ -48,9 +43,9 @@ namespace New
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))
-                _animation.StartPunch();
+                animationSysem.StartPunch();
             else if (Input.GetKeyUp(KeyCode.Space))
-                _animation.StopPunch();
+                animationSysem.StopPunch();
 
             if (Input.GetKey(KeyCode.Q))
                 transform.Rotate(0, -_rotationSpeed * Time.fixedDeltaTime, 0);
@@ -62,12 +57,12 @@ namespace New
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                _ragdollSystem.StartFall();
+                ragdollSystem.StartFall(25000f);
             }
 
             if (Input.GetKeyDown(KeyCode.R))
             {
-                _ragdollSystem.StartStandUp();
+                StartCoroutine(ragdollSystem.StartStandUp());
             }
         }
 
@@ -94,7 +89,7 @@ namespace New
 
         private void Move()
         {
-            if (_direction == Vector3.zero)
+            if (_direction == Vector3.zero || _character.enabled == false)
                 return;
 
             var direction = transform.rotation * _direction;
@@ -116,17 +111,17 @@ namespace New
         private void SetDirection(Vector3 direction)
         {
             _direction = direction;
-            _animation.SetDirection(direction.x, direction.z);
+            animationSysem.SetDirection(direction.x, direction.z);
         }
 
         private void StartMove()
         {
-            _animation.StartMove();
+            animationSysem.StartMove();
         }
     
         private void StopMove()
         {
-            _animation.StopMove();
+            animationSysem.StopMove();
         }
 
         private void ConnectActions()

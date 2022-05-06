@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 namespace New
@@ -25,6 +26,7 @@ namespace New
         [SerializeField] private float _standUpTime;
         [HideInInspector]
         public bool isActive;
+        private float _force;
 
         private void Awake()
         {
@@ -62,23 +64,30 @@ namespace New
             }
         }
     
-        public void StartFall()
+        public void StartFall(float force)
         {
+            _force = force;
+            
             UpdateRagdollBones();
             
             _character.enabled = false;
 
             Toggle(true);
-            
+            _chestRb.velocity = new Vector3(0, 0.02f, 0);
+
             StartCoroutine(ToggleAnimator(0, false));
+                            
+            StartCoroutine(StartStandUp());
 
             GameManager.Camera2.SetFall(true);
         }
     
-        public void StartStandUp()
+        public IEnumerator StartStandUp()
         {
-            Toggle(false);
+            yield return new WaitForSeconds(2.0f);
             
+            Toggle(false);
+
             _hipsPosition.x = _cameraTarget.position.x;
             _hipsPosition.z = _cameraTarget.position.z;
             
@@ -98,7 +107,7 @@ namespace New
             yield return new WaitForSeconds(time);
 
             if(enable == false)
-                _chestRb.AddForce(-transform.forward * 25000f); // TODO: Сделать силу толка зависящую от удара
+                _chestRb.AddForce(-transform.forward * _force);
             else
             {
                 transform.position = _cameraTarget.position + new Vector3(0, 0.5f, 0);
@@ -107,6 +116,12 @@ namespace New
             }
 
             _animation.Toggle(enable);
+        }
+
+        private bool VelocityIsZero()
+        {
+            var count = _bones.Count(rb => rb.velocity == Vector3.zero);
+            return count == _bones.Length;
         }
 
         private void Toggle(bool enable)
