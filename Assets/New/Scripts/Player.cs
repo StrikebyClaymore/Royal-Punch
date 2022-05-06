@@ -57,7 +57,7 @@ namespace New
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                ragdollSystem.StartFall(25000f);
+                ragdollSystem.StartFall(60000f);
             }
 
             if (Input.GetKeyDown(KeyCode.R))
@@ -71,7 +71,7 @@ namespace New
             Move();
         }
 
-        public void LeftPunch()
+        public void LeftPunch() //TODO: сделать чтобы удар проверялся в апдейте
         {
             if(_leftHand.Body is null)
                 return;

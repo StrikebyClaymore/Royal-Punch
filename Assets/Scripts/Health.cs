@@ -19,7 +19,7 @@ public class Health : MonoBehaviour
     
     private void Start()
     {
-        _camera = GameManager.Camera.gameCamera;
+        _camera = GameManager.Camera2.gameCamera;
         _health = _maxHeath;
         UpdateBar();
     }

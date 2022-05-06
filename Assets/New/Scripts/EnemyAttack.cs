@@ -110,12 +110,12 @@ namespace New
         private void SuperAttack()
         {
             ChangeSuperState(SuperStates.AttackEnd);
-            _colliders.SetEnable(_currentSuperAttack.id, false);
         }
         
         private void SuperAttackEnd()
         {
             ChangeSuperState(SuperStates.Tried);
+            _colliders.SetEnable(_currentSuperAttack.id, false);
             _effects.AreaSetVisible(_currentSuperAttack.id, false);
             _animationPercentPassed = 0;
             _currentSuperAttack.ResetParams();

@@ -19,8 +19,8 @@ TagManager:
   - EnemyHand
   - SuperAttack
   - PlayerPartticlesDetecter
-  - 
-  - 
+  - Struct
+  - WorldUI
   - 
   - 
   - 
