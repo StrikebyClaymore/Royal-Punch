@@ -29,6 +29,7 @@ namespace New
 
         [SerializeField] private Transform _cameraTarget;
         private bool _isRotateToBattle;
+        private bool _isRotateToStart;
         private bool _playerIsFall;
 
         private void Awake()
@@ -46,20 +47,28 @@ namespace New
 
             _startOffset = _startPosition - _player.position;
             _battleOffset = _battlePosition - _player.position;
-            _battleRotationOffset = Quaternion.Angle(transform.rotation, GetRotation());
+            
+            /*var relativePos = _enemy.position - _battlePosition;
+            var rotation = Quaternion.LookRotation(relativePos, Vector3.up);
+            _battleRotationOffset = Quaternion.Angle(quaternion.Euler(_battlePosition), rotation);*/
+            _battleRotationOffset = Quaternion.Angle(Quaternion.Euler(_battleRotation), _enemy.rotation);//Quaternion.Angle(transform.rotation, GetRotation());
 
-            transform.rotation = Quaternion.Euler(new Vector3(25, 180, 0));
+            //transform.position = _startPosition;
+            //transform.rotation = Quaternion.Euler(new Vector3(25, 180, 0));
+            GameManager.PlayerController.LockInput(false);
+            GameManager.BattleIsStarted = true;
+            transform.position = _battlePosition;
+            transform.rotation = Quaternion.Euler(new Vector3(45, 0, 0));
+            _battleRotationOffset = Quaternion.Angle(transform.rotation, GetRotation());
 
         }
 
         private void FixedUpdate()
         {
-            if(_isRotateToBattle)
+            if (_isRotateToBattle)
                 RotateToBattle();
-            else
-            {
+            else if (_isRotateToStart)
                 RotateToStart();
-            }
         }
 
         public void UpdateCamera()
@@ -76,19 +85,32 @@ namespace New
         
         private void RotateToBattle()
         {
-
-            var neededRotation = Quaternion.Euler(_battleRotation);
-            transform.rotation = Quaternion.Slerp(transform.rotation, neededRotation, startSpeed * Time.deltaTime);
+            var targetRotation = Quaternion.Euler(_battleRotation);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, startSpeed * Time.deltaTime);
             transform.position = Vector3.Lerp(transform.position, _battlePosition, startSpeed * Time.fixedDeltaTime);
             startSpeed = Mathf.Min(_maxStartSpeed, startSpeed + Time.deltaTime);
+            //Debug.Log($"{(transform.rotation.eulerAngles - targetRotation.eulerAngles).magnitude} {(transform.position  - _battlePosition).magnitude}");
+            if (360f - (transform.rotation.eulerAngles - targetRotation.eulerAngles).magnitude < 0.1f && (transform.position  - _battlePosition).magnitude < 0.1f)
+            {
+                //Debug.Log("ROTATED");
+                _battleRotationOffset = Quaternion.Angle(transform.rotation, GetRotation());
+                _isRotateToBattle = false;
+                GameManager.BattleIsStarted = true;
+                GameManager.PlayerController.LockInput(false);
+            }
         }
         
         private void RotateToStart()
         {
-            var neededRotation = Quaternion.Euler(_startRotation);
-            transform.rotation = Quaternion.Slerp(transform.rotation, neededRotation, startSpeed * Time.deltaTime);
-            transform.position = Vector3.Lerp(transform.position, _startPosition, startSpeed * Time.fixedDeltaTime);
+            var targetRotation = Quaternion.Euler(_startRotation);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, startSpeed * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, _player.position + _startOffset, startSpeed * Time.fixedDeltaTime);
+            
             startSpeed = Mathf.Min(_maxStartSpeed, startSpeed + Time.deltaTime);
+            if (360f - (transform.rotation.eulerAngles - targetRotation.eulerAngles).magnitude < 0.1f && (transform.position - _player.position + _startOffset).magnitude < 0.1f)
+            {
+                _isRotateToStart = false;
+            }
         }
         
         public void StartBattleCamera()
@@ -99,7 +121,9 @@ namespace New
         
         public void EndBattleCamera()
         {
+            GameManager.PlayerController.LockInput(true);
             _isRotateToBattle = false;
+            _isRotateToStart = true;
             startSpeed = _minStartSpeed;
         }
         

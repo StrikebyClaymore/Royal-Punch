@@ -38,6 +38,12 @@ public class Health : MonoBehaviour
             OnDie?.Invoke();
     }
 
+    public void Toggle(bool enable)
+    {
+        gameObject.SetActive(enable);
+        enabled = enable;
+    }
+    
     private void UpdateBar()
     {
         _foreground.fillAmount = (float) _health / _maxHeath;

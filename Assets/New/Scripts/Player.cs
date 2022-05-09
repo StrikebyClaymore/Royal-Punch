@@ -28,6 +28,8 @@ namespace New
         [Range(-1, 1)]
         [SerializeField] private float _speedZ;
 
+        [SerializeField] private int _damage = 10;
+        
         protected override void Awake()
         {
             base.Awake();
@@ -69,7 +71,8 @@ namespace New
             
             if (Input.GetMouseButtonDown(0))
             {
-                GameManager.StartBattle();
+                if (GameManager.BattleIsStarted == false)
+                    GameManager.StartBattle();
             }
             if (Input.GetMouseButtonDown(1))
             {
@@ -87,7 +90,7 @@ namespace New
             if(_leftHand.Body is null)
                 return;
             _hitParticles.StartHitParticles(_rightHand.type);
-            _leftHand.Body.GetHit(transform.position);
+            _leftHand.Body.GetHit(transform.position, _damage);
         }
         
         public void RightPunch()
@@ -95,9 +98,14 @@ namespace New
             if(_rightHand.Body is null)
                 return;
             _hitParticles.StartHitParticles(_leftHand.type);
-            _rightHand.Body.GetHit(transform.position);
+            _rightHand.Body.GetHit(transform.position, _damage);
         }
 
+        public void Win()
+        {
+            health.Toggle(false);
+        }
+        
         private void Move()
         {
             if (_direction == Vector3.zero || _character.enabled == false)
@@ -135,8 +143,9 @@ namespace New
             animationSysem.StopMove();
         }
 
-        private void ConnectActions()
+        protected override void ConnectActions()
         {
+            base.ConnectActions();
             GameManager.PlayerController.OnDirectionChanged += SetDirection;
             GameManager.PlayerController.OnMoveStarted += StartMove;
             GameManager.PlayerController.OnMoveStopped += StopMove;

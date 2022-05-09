@@ -6,13 +6,13 @@ namespace New
 {
     [RequireComponent(typeof(AnimationBase),
         typeof(CharacterController),
-        typeof(Player))]
+        typeof(Body))]
     public class RagdollSystem : MonoBehaviour
     {
         private AnimationBase _animation;
         private CharacterController _character;
         private GameCamera _camera;
-        private Player _player;
+        private Body _body;
     
         private Rigidbody[] _bones;
         private Quaternion[] rotations;
@@ -32,7 +32,7 @@ namespace New
         {
             _animation = GetComponent<AnimationBase>();
             _character = GetComponent<CharacterController>();
-            _player = GetComponent<Player>();
+            _body = GetComponent<Body>();
             _bones = GetComponentsInChildren<Rigidbody>();
             rotations = new Quaternion[_bones.Length];
         }
@@ -45,6 +45,8 @@ namespace New
     
         private void FixedUpdate()
         {
+            if(_body is Player == false)
+                return;
             if (isActive)
             {
                 var newPosition = _hips.position;
@@ -52,7 +54,7 @@ namespace New
                 _cameraTarget.position = newPosition;
 
                 _camera.UpdateCamera();
-                _player.Rotate();
+                ((Player)_body).Rotate();
             }
             else
             {
@@ -81,7 +83,23 @@ namespace New
 
             GameManager.Camera2.SetFall(true);
         }
-    
+
+        public void EnemyStartFall(float force)
+        {
+            _force = force;
+            _character.enabled = false;
+            Toggle(true);
+            StartCoroutine(ToggleAnimator(0, false));
+            StartCoroutine(Win());
+        }
+
+        private IEnumerator Win()
+        {
+            yield return new WaitForSeconds(1f);
+            GameManager.Camera2.EndBattleCamera();
+            GameManager.Player2.Win();
+        }
+        
         public IEnumerator StartStandUp()
         {
             yield return new WaitForSeconds(2.0f);

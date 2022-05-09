@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public static New.Enemy Enemy2 = null;
     public static New.GameCamera Camera2 = null;
 
+    public static bool BattleIsStarted;
+    
     private void Start()
     {
         Debug.Log(PlayerController);

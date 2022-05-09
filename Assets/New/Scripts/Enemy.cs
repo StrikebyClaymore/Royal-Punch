@@ -17,9 +17,21 @@ namespace New
             _animationRigging = GetComponent<AnimationRigging>();
         }
 
-        public override void GetHit(Vector3 hitPoint)
+        private void Start()
         {
-            base.GetHit(hitPoint);
+            ConnectActions();
+        }
+
+        protected override void Die()
+        {
+            base.Die();
+            ragdollSystem.EnemyStartFall(25000f);
+            GameManager.PlayerController.LockInput(true);
+        }
+
+        public override void GetHit(Vector3 hitPoint, int damage)
+        {
+            base.GetHit(hitPoint, damage);
             _animationRigging.AddHitReaction(hitPoint);
         }
     }
