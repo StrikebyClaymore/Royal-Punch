@@ -26,7 +26,7 @@ public class Player : Body
     {
         base.Die();
         GameManager.Camera.ChangeTarget();
-        GameManager.PlayerController.ToggleInput();
+        GameManager.PlayerController.LockInput(true);
         GameManager.Enemy.Win();
     }
 }

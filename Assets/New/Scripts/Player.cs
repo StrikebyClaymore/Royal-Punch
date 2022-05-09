@@ -19,6 +19,8 @@ namespace New
         [SerializeField] private float _rotationSpeed = 10f;
         [SerializeField] private Hand _leftHand;
         [SerializeField] private Hand _rightHand;
+
+        public Vector3 startPosition;
         
         [SerializeField] private bool _testMove;
         [Range(-1, 1)]
@@ -63,6 +65,15 @@ namespace New
             if (Input.GetKeyDown(KeyCode.R))
             {
                 StartCoroutine(ragdollSystem.StartStandUp());
+            }
+            
+            if (Input.GetMouseButtonDown(0))
+            {
+                GameManager.StartBattle();
+            }
+            if (Input.GetMouseButtonDown(1))
+            {
+                GameManager.Camera2.EndBattleCamera();
             }
         }
 

@@ -25,7 +25,7 @@ public class Enemy : Body
     protected override void Die()
     {
         base.Die();
-        GameManager.PlayerController.ToggleInput();
+        GameManager.PlayerController.LockInput(true);
         GameManager.Player.Win();
     }
 }
