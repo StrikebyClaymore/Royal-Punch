@@ -10,6 +10,7 @@ namespace New
         protected RagdollSystem ragdollSystem;
         protected AnimationBase animationSysem;
         [SerializeField] protected Health health;
+        [SerializeField] protected AttackRangeDetecter attackRangeDetecter;
 
         protected virtual void Awake()
         {
@@ -26,14 +27,29 @@ namespace New
         public virtual void KnockOut(float force)
         {
             Debug.Log(name + " KnockOut");
-            ragdollSystem.StartFall(force);
+            ragdollSystem.StartFall(force, true);
         }
 
-        protected virtual void Die(){}
+        protected virtual void Die()
+        {
+            health.Toggle(false);
+        }
 
+        private void TargetEnterRange()
+        {
+            animationSysem.StartPunch();
+        }
+
+        private void TargetExitRange()
+        {
+            animationSysem.StopPunch();
+        }
+        
         protected virtual void ConnectActions()
         {
             health.OnDie += Die;
+            attackRangeDetecter.OnTargetEnterRange += TargetEnterRange;
+            attackRangeDetecter.OnTargetExitRange += TargetExitRange;
         }
     }
 }

@@ -119,10 +119,10 @@ namespace New
             startSpeed = _minStartSpeed;
         }
         
-        public void EndBattleCamera()
+        public IEnumerator EndBattleCamera()
         {
-            GameManager.PlayerController.LockInput(true);
             _isRotateToBattle = false;
+            yield return new WaitForSeconds(1f);
             _isRotateToStart = true;
             startSpeed = _minStartSpeed;
         }

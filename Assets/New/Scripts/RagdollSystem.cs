@@ -66,7 +66,7 @@ namespace New
             }
         }
     
-        public void StartFall(float force)
+        public void StartFall(float force, bool standUp = false)
         {
             _force = force;
             
@@ -78,8 +78,9 @@ namespace New
             _chestRb.velocity = new Vector3(0, 0.02f, 0);
 
             StartCoroutine(ToggleAnimator(0, false));
-                            
-            StartCoroutine(StartStandUp());
+            
+            if (standUp)
+                StartCoroutine(StartStandUp());
 
             GameManager.Camera2.SetFall(true);
         }
@@ -90,16 +91,9 @@ namespace New
             _character.enabled = false;
             Toggle(true);
             StartCoroutine(ToggleAnimator(0, false));
-            StartCoroutine(Win());
-        }
-
-        private IEnumerator Win()
-        {
-            yield return new WaitForSeconds(1f);
-            GameManager.Camera2.EndBattleCamera();
             GameManager.Player2.Win();
         }
-        
+
         public IEnumerator StartStandUp()
         {
             yield return new WaitForSeconds(2.0f);

@@ -27,7 +27,7 @@ namespace New
         [SerializeField] private float _speedX;
         [Range(-1, 1)]
         [SerializeField] private float _speedZ;
-
+        
         [SerializeField] private int _damage = 10;
         
         protected override void Awake()
@@ -61,7 +61,7 @@ namespace New
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                ragdollSystem.StartFall(60000f);
+                ragdollSystem.StartFall(60000f, true);
             }
 
             if (Input.GetKeyDown(KeyCode.R))
@@ -103,7 +103,10 @@ namespace New
 
         public void Win()
         {
+            //GameManager.PlayerController.LockInput(true);
             health.Toggle(false);
+            animationSysem.StopPunch();
+            StartCoroutine(GameManager.Camera2.EndBattleCamera());
         }
         
         private void Move()
@@ -143,6 +146,14 @@ namespace New
             animationSysem.StopMove();
         }
 
+        protected override void Die()
+        {
+            base.Die();
+            GameManager.PlayerController.LockInput(true);
+            GameManager.Enemy2.Win();
+            ragdollSystem.StartFall(25000f);
+        }
+        
         protected override void ConnectActions()
         {
             base.ConnectActions();

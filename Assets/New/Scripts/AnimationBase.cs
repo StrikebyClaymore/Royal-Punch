@@ -10,6 +10,7 @@ namespace New
         protected Animator animator;
         private readonly int _horizontal = Animator.StringToHash("Horizontal");
         private readonly int _vertical = Animator.StringToHash("Vertical");
+        private readonly int _idle = Animator.StringToHash("Idle");
         private readonly int _move = Animator.StringToHash("Move");
         private readonly int _punch = Animator.StringToHash("Punch");
         
@@ -29,6 +30,8 @@ namespace New
         public void StartMove() => animator.SetBool(_move, true);
 
         public void StopMove() => animator.SetBool(_move, false);
+        
+        public void StartIdle() => animator.SetBool(_idle, true);
 
         public void SetDirection(float horizontal, float vertical)
         {

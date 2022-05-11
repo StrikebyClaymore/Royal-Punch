@@ -9,7 +9,11 @@ namespace New
     public class Enemy : Body
     {
         private AnimationRigging _animationRigging;
+        [SerializeField] private Hand _leftHand;
+        [SerializeField] private Hand _rightHand;
 
+        [SerializeField] private int _damage = 10;
+        
         protected override void Awake()
         {
             base.Awake();
@@ -22,6 +26,26 @@ namespace New
             ConnectActions();
         }
 
+        public void Win()
+        {
+            animationSysem.StopPunch();
+            animationSysem.StartIdle();
+        }
+        
+        public void LeftPunch()
+        {
+            if(_leftHand.Body is null)
+                return;
+            _leftHand.Body.GetHit(transform.position, _damage);
+        }
+        
+        public void RightPunch()
+        {
+            if(_rightHand.Body is null)
+                return;
+            _rightHand.Body.GetHit(transform.position, _damage);
+        }
+        
         protected override void Die()
         {
             base.Die();
