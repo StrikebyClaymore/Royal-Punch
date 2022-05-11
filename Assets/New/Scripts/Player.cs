@@ -20,6 +20,9 @@ namespace New
         [SerializeField] private Hand _leftHand;
         [SerializeField] private Hand _rightHand;
 
+        [SerializeField] private Transform _armature;
+        [SerializeField] private Transform _spine;
+
         public Vector3 startPosition;
         
         [SerializeField] private bool _testMove;
@@ -106,6 +109,8 @@ namespace New
             //GameManager.PlayerController.LockInput(true);
             health.Toggle(false);
             animationSysem.StopPunch();
+            animationSysem.StopMove();
+            animationSysem.StartIdle(true);
             StartCoroutine(GameManager.Camera2.EndBattleCamera());
         }
         
@@ -128,6 +133,11 @@ namespace New
             var targetRotation = Quaternion.LookRotation(relativePos, Vector3.up);
             var rotation = Quaternion.Lerp(transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
             transform.rotation = rotation;
+            
+            /*targetRotation = Quaternion.LookRotation(_direction, Vector3.up);
+            rotation = Quaternion.Lerp(_armature.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
+            _armature.rotation = rotation;*/
+           
         }
         
         private void SetDirection(Vector3 direction)

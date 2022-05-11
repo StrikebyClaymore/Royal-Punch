@@ -37,12 +37,15 @@ namespace New
 
         private void TargetEnterRange()
         {
+            animationSysem.StopIdle();
             animationSysem.StartPunch();
         }
 
         private void TargetExitRange()
         {
+            Debug.Log("EXIT");
             animationSysem.StopPunch();
+            animationSysem.StartIdle();
         }
         
         protected virtual void ConnectActions()

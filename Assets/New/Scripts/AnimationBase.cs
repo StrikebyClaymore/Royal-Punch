@@ -13,6 +13,7 @@ namespace New
         private readonly int _idle = Animator.StringToHash("Idle");
         private readonly int _move = Animator.StringToHash("Move");
         private readonly int _punch = Animator.StringToHash("Punch");
+        private readonly int _ideNoExit = Animator.StringToHash("IdeNoExit");
         
         private float _animDuration;
         
@@ -26,12 +27,21 @@ namespace New
         public void StartPunch() => animator.SetBool(_punch, true);
 
         public void StopPunch() => animator.SetBool(_punch, false);
-        
+
         public void StartMove() => animator.SetBool(_move, true);
 
         public void StopMove() => animator.SetBool(_move, false);
         
-        public void StartIdle() => animator.SetBool(_idle, true);
+        public void StartIdle(bool noExitTime = false)
+        {
+            animator.SetBool(_idle, true);
+            if (noExitTime)
+            {
+                animator.SetTrigger(_ideNoExit);
+            }
+        }
+
+        public void StopIdle() => animator.SetBool(_idle, false);
 
         public void SetDirection(float horizontal, float vertical)
         {

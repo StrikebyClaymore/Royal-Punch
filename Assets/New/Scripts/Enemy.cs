@@ -29,7 +29,7 @@ namespace New
         public void Win()
         {
             animationSysem.StopPunch();
-            animationSysem.StartIdle();
+            animationSysem.StartIdle(true);
         }
         
         public void LeftPunch()
