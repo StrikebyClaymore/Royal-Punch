@@ -20,8 +20,8 @@ namespace New
         [SerializeField] private Hand _leftHand;
         [SerializeField] private Hand _rightHand;
 
-        [SerializeField] private Transform _armature;
-        [SerializeField] private Transform _spine;
+        [SerializeField] private Transform _headTarget;
+        [SerializeField] private Transform _legsTarget;
 
         public Vector3 startPosition;
         
@@ -79,7 +79,7 @@ namespace New
             }
             if (Input.GetMouseButtonDown(1))
             {
-                GameManager.Camera2.EndBattleCamera();
+                StartCoroutine(GameManager.Camera2.EndBattleCamera());
             }
         }
 
@@ -134,12 +134,29 @@ namespace New
             var rotation = Quaternion.Lerp(transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
             transform.rotation = rotation;
             
-            /*targetRotation = Quaternion.LookRotation(_direction, Vector3.up);
-            rotation = Quaternion.Lerp(_armature.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
-            _armature.rotation = rotation;*/
-           
+            /*rotation = Quaternion.Lerp(_headTarget.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
+            _headTarget.rotation = rotation;*/
+            
+            targetRotation = Quaternion.LookRotation(_direction, Vector3.up);
+            rotation = Quaternion.Lerp(_legsTarget.localRotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
+            //_legsTarget.localRotation = rotation;
+            
+            /*var angle = rotation.eulerAngles.y;
+            Debug.Log(angle);
+            _legsTarget.localRotation *= rotation;*/
+            var angle = rotation.eulerAngles.y;
+            Debug.Log(rotation.eulerAngles);
+            if ((angle > 0 && angle > 270) || (angle > 0 && angle < 90))
+            {
+                _legsTarget.localRotation = rotation;
+            }
+            else
+            {
+                rotation = Quaternion.Slerp(_legsTarget.localRotation, Quaternion.Euler(Vector3.zero), _rotationSpeed * Time.fixedDeltaTime);
+                _legsTarget.localRotation = rotation;
+            }
         }
-        
+
         private void SetDirection(Vector3 direction)
         {
             _direction = direction;
