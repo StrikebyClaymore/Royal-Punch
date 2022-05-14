@@ -16,7 +16,9 @@ namespace New
     
         private Rigidbody[] _bones;
         private Quaternion[] rotations;
-    
+        [SerializeField] private Transform _armature;
+        private Collider[] _colliders;
+        
         [SerializeField] private Transform _hips;
         [SerializeField] private Rigidbody _chestRb;
         [SerializeField] private Transform _cameraTarget;
@@ -34,6 +36,7 @@ namespace New
             _character = GetComponent<CharacterController>();
             _body = GetComponent<Body>();
             _bones = GetComponentsInChildren<Rigidbody>();
+            _colliders = _armature.GetComponentsInChildren<Collider>();
             rotations = new Quaternion[_bones.Length];
         }
 
@@ -52,9 +55,8 @@ namespace New
                 var newPosition = _hips.position;
                 newPosition.y = 0f;
                 _cameraTarget.position = newPosition;
-
-                _camera.UpdateCamera();
-                ((Player)_body).Rotate();
+                
+                //((Player)_body).Rotate();
             }
             else
             {
@@ -70,6 +72,8 @@ namespace New
         {
             _force = force;
             
+            _animation.StopPunch();
+
             UpdateRagdollBones();
             
             _character.enabled = false;
@@ -112,6 +116,7 @@ namespace New
             _hipsPosition.y = _hips.position.y;
             for (int i = 0; i < _bones.Length; i++)
                 rotations[i] = _bones[i].transform.rotation;
+            
         }
 
         private IEnumerator ToggleAnimator(float time, bool enable)
@@ -122,6 +127,7 @@ namespace New
                 _chestRb.AddForce(-transform.forward * _force);
             else
             {
+                _animation.StartIdle(true);
                 transform.position = _cameraTarget.position + new Vector3(0, 0.5f, 0);
                 _cameraTarget.localPosition = Vector3.zero;
                 _character.enabled = true;
@@ -140,6 +146,8 @@ namespace New
         {
             foreach (var rb in _bones)
                 rb.isKinematic = !enable;
+            foreach (var c in _colliders)
+                c.isTrigger = !enable;
             isActive = enable;
         }
     }

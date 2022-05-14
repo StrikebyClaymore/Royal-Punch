@@ -69,24 +69,39 @@ namespace New
                 RotateToBattle();
             else if (_isRotateToStart)
                 RotateToStart();
+            //else
+            //    UpdateCamera();
         }
 
+        private Vector3 velocity = Vector3.zero;
         public void UpdateCamera()
         {
+            /*var targetRotation = Quaternion.Euler(new Vector3(_battleRotation.x, _battleRotation.y + _player.rotation.eulerAngles.y, _battleRotation.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, _player.position + _player.rotation * _battleOffset, _moveSpeed * Time.deltaTime);*/
+            
+            var targetPosition = _cameraTarget.rotation * _battleOffset + _cameraTarget.position;
             var relativePos = _enemy.position - transform.position;
             var targetRotation = Quaternion.LookRotation(relativePos, Vector3.up) *
                                  Quaternion.Euler(new Vector3(_battleRotationOffset, 0, 0));
-            transform.rotation =
-                Quaternion.Lerp(transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
 
-            var targetPosition = _cameraTarget.rotation * _battleOffset + _cameraTarget.position;
+            Debug.Log($"{transform.rotation.eulerAngles} {targetRotation.eulerAngles}" +
+                      $" {(transform.rotation.eulerAngles - targetRotation.eulerAngles).magnitude}" +
+                      $" {(transform.position - targetPosition).magnitude}");
+            
+            if ((transform.rotation.eulerAngles - targetRotation.eulerAngles).magnitude < 0.1f && (transform.position - targetPosition).magnitude < 0.1f)
+                return;
+            
+            //transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, 0.3f);
             transform.position = Vector3.Lerp(transform.position, targetPosition, _moveSpeed * Time.fixedDeltaTime);
+            
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
         }
         
         private void RotateToBattle()
         {
             var targetRotation = Quaternion.Euler(_battleRotation);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, startSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, startSpeed * Time.fixedDeltaTime);
             transform.position = Vector3.Lerp(transform.position, _battlePosition, startSpeed * Time.fixedDeltaTime);
             startSpeed = Mathf.Min(_maxStartSpeed, startSpeed + Time.deltaTime);
             //Debug.Log($"{(transform.rotation.eulerAngles - targetRotation.eulerAngles).magnitude} {(transform.position  - _battlePosition).magnitude}");
@@ -102,11 +117,11 @@ namespace New
         
         private void RotateToStart()
         {
-            var targetRotation = Quaternion.Euler(_startRotation);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, startSpeed * Time.deltaTime);
-            transform.position = Vector3.Lerp(transform.position, _player.position + _startOffset, startSpeed * Time.fixedDeltaTime);
+            var targetRotation = Quaternion.Euler(new Vector3(_startRotation.x, _startRotation.y + _player.rotation.eulerAngles.y, _startRotation.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, startSpeed * Time.fixedDeltaTime);
+            transform.position = Vector3.Lerp(transform.position, _player.position + _player.rotation * _startOffset, startSpeed * Time.fixedDeltaTime);
             
-            startSpeed = Mathf.Min(_maxStartSpeed, startSpeed + Time.deltaTime);
+            startSpeed = Mathf.Min(_maxStartSpeed, startSpeed + Time.fixedDeltaTime);
             if (360f - (transform.rotation.eulerAngles - targetRotation.eulerAngles).magnitude < 0.1f && (transform.position - _player.position + _startOffset).magnitude < 0.1f)
             {
                 _isRotateToStart = false;

@@ -20,7 +20,6 @@ namespace New
         
         public virtual void GetHit(Vector3 hitPoint, int damage)
         {
-            Debug.Log(name + " GetHit");
             health.ApplyDamage(damage);
         }
         

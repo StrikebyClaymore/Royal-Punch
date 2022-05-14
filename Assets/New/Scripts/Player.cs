@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 using UnityEngine.WSA;
 
 namespace New
@@ -22,6 +23,8 @@ namespace New
 
         [SerializeField] private Transform _headTarget;
         [SerializeField] private Transform _legsTarget;
+        [SerializeField] private MultiRotationConstraint _legsConst;
+        [SerializeField] private MultiRotationConstraint _headConst;
 
         public Vector3 startPosition;
         
@@ -86,6 +89,8 @@ namespace New
         private void FixedUpdate()
         {
             Move();
+            //if(_direction == Vector3.zero)
+             //   _camera.UpdateCamera();
         }
 
         public void LeftPunch() //TODO: сделать чтобы удар проверялся в апдейте
@@ -121,7 +126,7 @@ namespace New
 
             var direction = transform.rotation * _direction;
             var motion = Vector3.ClampMagnitude(_moveSpeed * direction, _moveSpeed) * Time.fixedDeltaTime;
-            _character.Move(motion);
+            _character.Move(motion); 
             Rotate();
             _camera.UpdateCamera();
             _direction = Vector3.zero;
@@ -131,32 +136,45 @@ namespace New
         {
             var relativePos = _enemy.position - transform.position;
             var targetRotation = Quaternion.LookRotation(relativePos, Vector3.up);
-            var rotation = Quaternion.Lerp(transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
-            transform.rotation = rotation;
+            var rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
             
-            /*rotation = Quaternion.Lerp(_headTarget.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
-            _headTarget.rotation = rotation;*/
+            transform.rotation = rotation;
+
+            if(_direction == Vector3.zero)
+                return;
+            
+            //_headTarget.localRotation = rotation;
             
             targetRotation = Quaternion.LookRotation(_direction, Vector3.up);
             rotation = Quaternion.Lerp(_legsTarget.localRotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
-            //_legsTarget.localRotation = rotation;
             
-            /*var angle = rotation.eulerAngles.y;
-            Debug.Log(angle);
-            _legsTarget.localRotation *= rotation;*/
             var angle = rotation.eulerAngles.y;
-            Debug.Log(rotation.eulerAngles);
-            if ((angle > 0 && angle > 270) || (angle > 0 && angle < 90))
+            
+            if (angle < 270 && angle > 90)
             {
-                _legsTarget.localRotation = rotation;
+                targetRotation = Quaternion.LookRotation(-_direction, Vector3.up);// * Quaternion.Euler(new Vector3(0, 180, 0));//180 - angle
+                rotation = Quaternion.Lerp(_legsTarget.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
             }
-            else
+            
+            /*else
             {
-                rotation = Quaternion.Slerp(_legsTarget.localRotation, Quaternion.Euler(Vector3.zero), _rotationSpeed * Time.fixedDeltaTime);
-                _legsTarget.localRotation = rotation;
-            }
+                _headTarget.rotation = transform.rotation;
+            }*/
+            
+            _legsTarget.localRotation = rotation;
         }
 
+        private void ResetRotation()
+        {
+            /*var relativePos = _enemy.position - transform.position;
+            var targetRotation = Quaternion.LookRotation(relativePos, Vector3.up);
+            transform.rotation = targetRotation;*/
+            _legsTarget.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            _headTarget.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            _legsConst.data.offset = new Vector3(0, 35f, 0);
+            _headConst.data.offset = new Vector3(0, 35f, 0);
+        }
+        
         private void SetDirection(Vector3 direction)
         {
             _direction = direction;
@@ -165,11 +183,14 @@ namespace New
 
         private void StartMove()
         {
+            _legsConst.data.offset = Vector3.zero;
+            //_headConst.data.offset = Vector3.zero;
             animationSysem.StartMove();
         }
     
         private void StopMove()
         {
+            ResetRotation();
             animationSysem.StopMove();
         }
 

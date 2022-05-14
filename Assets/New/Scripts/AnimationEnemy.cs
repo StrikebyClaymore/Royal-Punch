@@ -9,7 +9,9 @@ namespace New
 
         public void StartSuper(int attackNumber)
         {
-            animator.SetTrigger(Super+attackNumber);   
+            StopPunch();
+            animator.Play(Super+attackNumber);
+            //animator.SetTrigger(Super+attackNumber);   
         }
     }
 }
