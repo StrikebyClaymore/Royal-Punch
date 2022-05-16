@@ -11,6 +11,7 @@ namespace New
         protected AnimationBase animationSysem;
         [SerializeField] protected Health health;
         [SerializeField] protected AttackRangeDetecter attackRangeDetecter;
+        protected bool finishPunch; 
 
         protected virtual void Awake()
         {
@@ -29,6 +30,16 @@ namespace New
             ragdollSystem.StartFall(force, true);
         }
 
+        public bool IsLastHit(int damage) => health.IsLastHp(damage);
+        
+        public void StartPunch()
+        {
+            if (finishPunch)
+            {
+                animationSysem.FinishPunch();
+            }
+        }
+
         protected virtual void Die()
         {
             health.Toggle(false);
@@ -37,7 +48,10 @@ namespace New
         private void TargetEnterRange()
         {
             animationSysem.StopIdle();
-            animationSysem.StartPunch();
+            if(finishPunch == false)
+                animationSysem.StartPunch();
+            else
+                animationSysem.FinishPunch();
         }
 
         private void TargetExitRange()

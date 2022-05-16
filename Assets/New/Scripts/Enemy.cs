@@ -34,16 +34,35 @@ namespace New
         
         public void LeftPunch()
         {
-            if(_leftHand.Body is null)
-                return;
-            _leftHand.Body.GetHit(transform.position, _damage);
+            Punch(_leftHand);
+            
+            if (finishPunch)
+            {
+                animationSysem.StopPunch();
+                animationSysem.FinishPunch();
+            }
         }
         
         public void RightPunch()
         {
-            if(_rightHand.Body is null)
+            Punch(_rightHand);
+        }
+        
+        private void Punch(Hand hand)
+        {
+            if(hand.Body is null)
                 return;
-            _rightHand.Body.GetHit(transform.position, _damage);
+            hand.Body.GetHit(transform.position, _damage);
+            
+            if (hand.Body.IsLastHit(_damage))
+            {
+                finishPunch = true;
+            }
+        }
+        
+        public void FinishPunch()
+        {
+            Punch(_rightHand);
         }
         
         protected override void Die()

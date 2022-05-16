@@ -85,9 +85,9 @@ namespace New
             var targetRotation = Quaternion.LookRotation(relativePos, Vector3.up) *
                                  Quaternion.Euler(new Vector3(_battleRotationOffset, 0, 0));
 
-            Debug.Log($"{transform.rotation.eulerAngles} {targetRotation.eulerAngles}" +
+            /*Debug.Log($"{transform.rotation.eulerAngles} {targetRotation.eulerAngles}" +
                       $" {(transform.rotation.eulerAngles - targetRotation.eulerAngles).magnitude}" +
-                      $" {(transform.position - targetPosition).magnitude}");
+                      $" {(transform.position - targetPosition).magnitude}");*/
             
             if ((transform.rotation.eulerAngles - targetRotation.eulerAngles).magnitude < 0.1f && (transform.position - targetPosition).magnitude < 0.1f)
                 return;

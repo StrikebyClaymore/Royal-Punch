@@ -7,5 +7,7 @@ namespace New
         void GetHit(Vector3 hitPoint, int damage);
 
         void KnockOut(float force);
+
+        bool IsLastHit(int damage);
     }
 }

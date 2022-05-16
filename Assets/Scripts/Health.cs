@@ -38,6 +38,8 @@ public class Health : MonoBehaviour
             OnDie?.Invoke();
     }
 
+    public bool IsLastHp(int damage) => _health - damage <= 0;
+    
     public void Toggle(bool enable)
     {
         gameObject.SetActive(enable);

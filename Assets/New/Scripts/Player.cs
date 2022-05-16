@@ -95,20 +95,31 @@ namespace New
 
         public void LeftPunch() //TODO: сделать чтобы удар проверялся в апдейте
         {
-            if(_leftHand.Body is null)
-                return;
-            _hitParticles.StartHitParticles(_rightHand.type);
-            _leftHand.Body.GetHit(transform.position, _damage);
+            Punch(_leftHand);
         }
         
         public void RightPunch()
         {
-            if(_rightHand.Body is null)
-                return;
-            _hitParticles.StartHitParticles(_leftHand.type);
-            _rightHand.Body.GetHit(transform.position, _damage);
+            Punch(_rightHand);
         }
 
+        private void Punch(Hand hand)
+        {
+            if(hand.Body is null)
+                return;
+            _hitParticles.StartHitParticles(hand.type);
+            hand.Body.GetHit(transform.position, _damage);
+            if (hand.Body.IsLastHit(_damage))
+            {
+                finishPunch = true;
+            }
+        }
+        
+        public void FinishPunch()
+        {
+            Punch(_rightHand);
+        }
+        
         public void Win()
         {
             //GameManager.PlayerController.LockInput(true);

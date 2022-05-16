@@ -56,7 +56,8 @@ namespace New
                 newPosition.y = 0f;
                 _cameraTarget.position = newPosition;
                 
-                //((Player)_body).Rotate();
+                ((Player)_body).Rotate();
+                _camera.UpdateCamera();
             }
             else
             {
@@ -109,7 +110,28 @@ namespace New
             
             StartCoroutine(ToggleAnimator(_standUpTime, true));
         }
-    
+
+        public void HitReaction()
+        {
+            /*_force = force;
+            
+            _animation.StopPunch();
+
+            UpdateRagdollBones();
+            
+            _character.enabled = false;
+
+            Toggle(true);
+            _chestRb.velocity = new Vector3(0, 0.02f, 0);
+
+            StartCoroutine(ToggleAnimator(0, false));
+            
+            if (standUp)
+                StartCoroutine(StartStandUp());
+
+            GameManager.Camera2.SetFall(true);*/
+        }
+        
         private void UpdateRagdollBones()
         {
             _hipsPosition = _cameraTarget.position;

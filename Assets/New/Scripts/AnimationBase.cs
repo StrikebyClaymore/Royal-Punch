@@ -14,6 +14,7 @@ namespace New
         private readonly int _move = Animator.StringToHash("Move");
         private readonly int _punch = Animator.StringToHash("Punch");
         private readonly int _idleNoExit = Animator.StringToHash("IdleNoExit");
+        private readonly int _finishPunch = Animator.StringToHash("FinishPunch");
         
         private float _animDuration;
         
@@ -48,6 +49,8 @@ namespace New
 
         public void StopIdle() => animator.SetBool(_idle, false);
 
+        public void FinishPunch() => animator.Play(_finishPunch);
+        
         public void SetDirection(float horizontal, float vertical)
         {
             animator.SetFloat(_horizontal, horizontal);
