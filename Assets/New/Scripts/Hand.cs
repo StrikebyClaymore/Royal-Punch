@@ -8,12 +8,12 @@ namespace New
         [HideInInspector]
         public IHitable Body;
         private Collider _collider;
-        public enum HandTypes
+        public enum NewHandTypes
         {
             Left,
             Right
         }
-        public HandTypes type;
+        public NewHandTypes type;
         
         private void OnTriggerEnter(Collider other)
         {

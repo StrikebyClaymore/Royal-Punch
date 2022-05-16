@@ -9,9 +9,9 @@ namespace New
         [SerializeField] private ParticleSystem _leftParticles;
         [SerializeField] private ParticleSystem _rightParticles;
 
-        public void StartHitParticles(Hand.HandTypes type)
+        public void StartHitParticles(Hand.NewHandTypes type)
         {
-            if (type == Hand.HandTypes.Left)
+            if (type == Hand.NewHandTypes.Left)
                 Play(_rightParticles);
             else
                 Play(_leftParticles);

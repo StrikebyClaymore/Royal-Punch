@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace New
 {
-    [RequireComponent(typeof(AnimationBase),
+    /*[RequireComponent(typeof(AnimationBase),
         typeof(CharacterController),
-        typeof(Body))]
+        typeof(Body))]*/
     public class RagdollSystem : MonoBehaviour
     {
         private AnimationBase _animation;

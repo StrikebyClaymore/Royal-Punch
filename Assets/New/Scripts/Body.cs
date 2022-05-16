@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace New
 {
-    [RequireComponent(typeof(RagdollSystem),
-        typeof(AnimationBase))]
+    /*[RequireComponent(typeof(RagdollSystem),
+        typeof(AnimationBase))]*/
     public abstract class Body : MonoBehaviour, IHitable
     {
         protected RagdollSystem ragdollSystem;

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace New
 {
-    [RequireComponent(typeof(AnimationEnemy))]
+    /*[RequireComponent(typeof(AnimationEnemy))]*/
     public class EnemyAttack : MonoBehaviour
     {
         private AnimationEnemy _animation;

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace New
 {
-    [RequireComponent(typeof(AnimationRigging))]
+    /*[RequireComponent(typeof(AnimationRigging))]*/
     public class Enemy : Body
     {
         private AnimationRigging _animationRigging;
