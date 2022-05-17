@@ -22773,19 +22773,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1019044768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1619404834161921061}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17a68e608bc043508e2fa62ec14d9998, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
 --- !u!135 &1019044769
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -23018,6 +23005,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1111483297}
   - component: {fileID: 1111483296}
+  - component: {fileID: 1111483299}
   m_Layer: 9
   m_Name: AttackRangeDetector
   m_TagString: Untagged
@@ -23025,6 +23013,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1111483299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1111483298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a455eeb6137f46f590b7bb9e6d96f86c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1120977263
 GameObject:
   m_ObjectHideFlags: 0
@@ -24563,9 +24563,11 @@ MonoBehaviour:
   _battleRotation: {x: 45, y: 0, z: 0}
   _rotationSpeed: 100
   _moveSpeed: 16
+  _stopRotationSpeed: 30
+  _stopMoveSpeed: 10
   _maxStartSpeed: 3
   _minStartSpeed: 0.1
-  startSpeed: 0.1
+  _startSpeed: 0
   _cameraTarget: {fileID: 656429264}
   _endBattleDelayTime: 1
 --- !u!81 &1642928715
@@ -24680,19 +24682,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1676853005
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2351101310613068425}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17a68e608bc043508e2fa62ec14d9998, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 1
 --- !u!135 &1676853006
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -35987,7 +35976,7 @@ GameObject:
   - component: {fileID: 1019044799}
   - component: {fileID: 1019044769}
   - component: {fileID: 1019044798}
-  - component: {fileID: 1019044768}
+  - component: {fileID: 1619404834161921062}
   m_Layer: 9
   m_Name: mixamorig:LeftHand
   m_TagString: Untagged
@@ -35995,6 +35984,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1619404834161921062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1619404834161921061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edba7734ab7848019747a41b18e47d49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
 --- !u!1 &1638978428564602737
 GameObject:
   m_ObjectHideFlags: 0
@@ -36341,7 +36343,7 @@ GameObject:
   - component: {fileID: 1676853004}
   - component: {fileID: 1676853006}
   - component: {fileID: 1676853003}
-  - component: {fileID: 1676853005}
+  - component: {fileID: 2351101310613068426}
   m_Layer: 9
   m_Name: mixamorig:RightHand
   m_TagString: Untagged
@@ -36349,6 +36351,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2351101310613068426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2351101310613068425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edba7734ab7848019747a41b18e47d49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
 --- !u!4 &2409840878131740382
 Transform:
   m_ObjectHideFlags: 0
@@ -36605,6 +36620,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _armature: {fileID: 2880697255962169901}
   isActive: 0
+  _hips: {fileID: 2656447772700689023}
+  _chestRb: {fileID: 1465697508}
+  _cameraTarget: {fileID: 656429264}
+  _rotationSpeed: 5
+  _movementSpeed: 1
+  _standUpTime: 1.2
+  _knockOutTime: 2
 --- !u!114 &2769701967079664544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36631,7 +36653,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _leftHand: {fileID: 7164758217175847769}
   _rightHand: {fileID: 5272021650481128976}
-  _damage: 10
+  _damage: 1
   _hitParticles: {fileID: 633307340}
 --- !u!114 &2769701967079664546
 MonoBehaviour:
@@ -37074,6 +37096,9 @@ GameObject:
   - component: {fileID: 210}
   - component: {fileID: 209}
   - component: {fileID: 3797998411632335334}
+  - component: {fileID: 3797998411632335337}
+  - component: {fileID: 3797998411632335336}
+  - component: {fileID: 3797998411632335335}
   m_Layer: 9
   m_Name: Enemy
   m_TagString: Untagged
@@ -37093,6 +37118,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7246cb92dd2be94993356efb3865dc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3797998411632335335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3797998411632335333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7bcfe37e981476996964e656dd21b6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _armature: {fileID: 6089823430733687991}
+  isActive: 0
+--- !u!114 &3797998411632335336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3797998411632335333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27424c073fde46e2beceefb06a1fdedc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3797998411632335337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3797998411632335333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4be5e233ad947c0af846495dcc3c36d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _leftHand: {fileID: 1619404834161921062}
+  _rightHand: {fileID: 2351101310613068426}
+  _damage: 1
+  _rotationSpeed: 10
 --- !u!4 &3883529234032458542
 Transform:
   m_ObjectHideFlags: 0

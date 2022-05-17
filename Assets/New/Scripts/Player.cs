@@ -201,8 +201,10 @@ namespace New
     
         private void StopMove()
         {
+            Debug.Log("START");
             ResetRotation();
             animationSysem.StopMove();
+            GameManager.Camera2.StartSmoothRotate();
         }
 
         protected override void Die()

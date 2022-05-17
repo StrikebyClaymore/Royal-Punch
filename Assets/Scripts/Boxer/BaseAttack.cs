@@ -18,11 +18,6 @@ public abstract class BaseAttack : MonoBehaviour
         gameObject.TryGetComponentInChildren(true, out _attackRangeDetector);
     }
 
-    private void Start()
-    {
-        ConnectActions();
-    }
-
     public void LeftPunch()
     {
         Punch(_leftHand);
@@ -37,10 +32,13 @@ public abstract class BaseAttack : MonoBehaviour
     {
         if(hand.Body is null)
             return;
+
         hand.Body.GetHit(transform.position, _damage);
         if (hand.Body.IsLastHit(_damage))
         {
             finishPunch = true;
+            _boxer.animationSystem.StopPunch();
+            _boxer.animationSystem.FinishPunch();
         }
     }
         
@@ -51,7 +49,7 @@ public abstract class BaseAttack : MonoBehaviour
     
     private void TargetEnterRange()
     {
-        _boxer.animationSystem.StopIdle();
+        //_boxer.animationSystem.StopIdle();
         if(finishPunch == false)
             _boxer.animationSystem.StartPunch();
         else
@@ -64,7 +62,7 @@ public abstract class BaseAttack : MonoBehaviour
         _boxer.animationSystem.StartIdle();
     }
 
-    private void ConnectActions()
+    protected virtual void ConnectActions()
     {
         _attackRangeDetector.OnTargetEnterRange += TargetEnterRange;
         _attackRangeDetector.OnTargetExitRange += TargetExitRange;

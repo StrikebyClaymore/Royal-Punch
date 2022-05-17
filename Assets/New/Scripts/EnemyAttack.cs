@@ -20,6 +20,8 @@ namespace New
         private SuperAttackConfig _currentSuperAttack;
         [SerializeField] private float _rotationSpeed = 1f;
 
+        [SerializeField] private Health _health;
+
         public enum SuperStates
         {
             None = 0,
@@ -51,7 +53,7 @@ namespace New
             _player = GameManager.Player2.transform;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (_superState == SuperStates.Charge || _superState == SuperStates.Attack)
             {
@@ -59,7 +61,7 @@ namespace New
             }
         }
 
-        private void FixedUpdate()
+        private void LateUpdate()
         {
             if(_superState != SuperStates.None)
                 return;
@@ -143,8 +145,9 @@ namespace New
         {
             var relativePos = _player.position - transform.position;
             var targetRotation = Quaternion.LookRotation(relativePos, Vector3.up);
-            var rotation = Quaternion.Lerp(transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
+            var rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
             transform.rotation = rotation;
+            _health.UpdateRotation();
         }
         
     }

@@ -30,6 +30,9 @@ namespace New
         [SerializeField] private Transform _cameraTarget;
         private bool _isRotateToBattle;
         private bool _isRotateToStart;
+        private bool _isSmoothRotate;
+        private Vector3 _velocity = Vector3.zero;
+        [SerializeField] private float _smoothTime = 0.3f;
         private bool _playerIsFall;
 
         private void Awake()
@@ -69,11 +72,12 @@ namespace New
                 RotateToBattle();
             else if (_isRotateToStart)
                 RotateToStart();
+            else if (_isSmoothRotate)
+                SmoothRotate();
             //else
             //    UpdateCamera();
         }
-
-        private Vector3 velocity = Vector3.zero;
+        
         public void UpdateCamera()
         {
             /*var targetRotation = Quaternion.Euler(new Vector3(_battleRotation.x, _battleRotation.y + _player.rotation.eulerAngles.y, _battleRotation.z));
@@ -100,9 +104,11 @@ namespace New
         
         private void RotateToBattle()
         {
-            var targetRotation = Quaternion.Euler(_battleRotation);
+            //var targetRotation = Quaternion.Euler(_battleRotation);
+            var targetRotation = Quaternion.Euler(new Vector3(_battleRotation.x, _battleRotation.y + _player.rotation.eulerAngles.y, _battleRotation.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, startSpeed * Time.fixedDeltaTime);
-            transform.position = Vector3.Lerp(transform.position, _battlePosition, startSpeed * Time.fixedDeltaTime);
+            //transform.position = Vector3.Lerp(transform.position, _battlePosition, startSpeed * Time.fixedDeltaTime);
+            transform.position = Vector3.Lerp(transform.position, _player.position + _player.rotation * _battleOffset, startSpeed * Time.fixedDeltaTime);
             startSpeed = Mathf.Min(_maxStartSpeed, startSpeed + Time.deltaTime);
             //Debug.Log($"{(transform.rotation.eulerAngles - targetRotation.eulerAngles).magnitude} {(transform.position  - _battlePosition).magnitude}");
             if (360f - (transform.rotation.eulerAngles - targetRotation.eulerAngles).magnitude < 0.1f && (transform.position  - _battlePosition).magnitude < 0.1f)
@@ -122,9 +128,32 @@ namespace New
             transform.position = Vector3.Lerp(transform.position, _player.position + _player.rotation * _startOffset, startSpeed * Time.fixedDeltaTime);
             
             startSpeed = Mathf.Min(_maxStartSpeed, startSpeed + Time.fixedDeltaTime);
+            
             if (360f - (transform.rotation.eulerAngles - targetRotation.eulerAngles).magnitude < 0.1f && (transform.position - _player.position + _startOffset).magnitude < 0.1f)
             {
                 _isRotateToStart = false;
+            }
+        }
+
+        private void SmoothRotate()
+        {
+            var targetPosition = _cameraTarget.rotation * _battleOffset + _cameraTarget.position;
+            var relativePos = _enemy.position - transform.position;
+            var targetRotation = Quaternion.LookRotation(relativePos, Vector3.up) *
+                                 Quaternion.Euler(new Vector3(_battleRotationOffset, 0, 0));
+
+           // transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, _smoothTime);
+            transform.position = Vector3.Lerp(transform.position, targetPosition, _moveSpeed * Time.fixedDeltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
+            
+            Debug.Log($"{(transform.rotation.eulerAngles - targetRotation.eulerAngles).magnitude} {Vector3.Distance(transform.position, targetPosition)}");
+            
+            startSpeed = Mathf.Min(_maxStartSpeed, startSpeed + Time.fixedDeltaTime);
+            
+            if ((transform.rotation.eulerAngles - targetRotation.eulerAngles).magnitude < 0.1f && Vector3.Distance(transform.position, targetPosition) < 0.1f)
+            {
+                Debug.Log("STOP ROTATE");
+                _isSmoothRotate = false;
             }
         }
         
@@ -139,6 +168,12 @@ namespace New
             _isRotateToBattle = false;
             yield return new WaitForSeconds(1f);
             _isRotateToStart = true;
+            startSpeed = _minStartSpeed;
+        }
+
+        public void StartSmoothRotate()
+        {
+            _isSmoothRotate = true;
             startSpeed = _minStartSpeed;
         }
         

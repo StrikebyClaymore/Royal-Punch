@@ -19,16 +19,20 @@ public class GameCamera : MonoBehaviour
 
     [SerializeField] private float _rotationSpeed = 100f;
     [SerializeField] private float _moveSpeed = 10f;
+    [SerializeField] private float _stopRotationSpeed = 30f;
+    [SerializeField] private float _stopMoveSpeed = 10f;
 
     [SerializeField] private float _maxStartSpeed;
     [SerializeField] private float _minStartSpeed;
-    [SerializeField] private float startSpeed;
+    [SerializeField] private float _startSpeed;
 
     [SerializeField] private Transform _cameraTarget;
     private bool _isRotateToBattle;
     private bool _isRotateToStart;
     private bool _playerIsFall;
-    private Vector3 _velocity = Vector3.zero;
+    private bool _isStopRotating;
+    /*private Vector3 _velocity = Vector3.zero;
+    [SerializeField] private float _smoothTime = 0.3f;*/
     [SerializeField] private float _endBattleDelayTime = 1f;
 
     private void Awake()
@@ -51,7 +55,6 @@ public class GameCamera : MonoBehaviour
         transform.position = _battlePosition;
         transform.rotation = Quaternion.Euler(new Vector3(45, 0, 0));
         _battleRotationOffset = Quaternion.Angle(transform.rotation, GetRotation());
-
     }
 
     private void FixedUpdate()
@@ -60,6 +63,8 @@ public class GameCamera : MonoBehaviour
             RotateToBattle();
         else if (_isRotateToStart)
             RotateToStart();
+        else if (_isStopRotating)
+            StopRotating();
     }
     
     public void UpdateCamera()
@@ -78,12 +83,38 @@ public class GameCamera : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
     }
 
+    public void StartBattleCamera()
+    {
+        _isRotateToBattle = true;
+        _startSpeed = _minStartSpeed;
+    }
+
+    public IEnumerator EndBattleCamera()
+    {
+        _isRotateToBattle = false;
+        yield return new WaitForSeconds(_endBattleDelayTime);
+        _isRotateToStart = true;
+        _startSpeed = _minStartSpeed;
+    }
+
+    public void StartStopRotate()
+    {
+        _isStopRotating = true;
+    }
+    
+    public void StartRotate()
+    {
+        _isStopRotating = false;
+    }
+    
+    public void SetFall(bool isFall) => _playerIsFall = isFall;
+    
     private void RotateToBattle()
     {
         var targetRotation = Quaternion.Euler(_battleRotation);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, startSpeed * Time.fixedDeltaTime);
-        transform.position = Vector3.Lerp(transform.position, _battlePosition, startSpeed * Time.fixedDeltaTime);
-        startSpeed = Mathf.Min(_maxStartSpeed, startSpeed + Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _startSpeed * Time.fixedDeltaTime);
+        transform.position = Vector3.Lerp(transform.position, _battlePosition, _startSpeed * Time.fixedDeltaTime);
+        _startSpeed = Mathf.Min(_maxStartSpeed, _startSpeed + Time.deltaTime);
 
         if (360f - (transform.rotation.eulerAngles - targetRotation.eulerAngles).magnitude < 0.1f &&
             (transform.position - _battlePosition).magnitude < 0.1f)
@@ -99,33 +130,35 @@ public class GameCamera : MonoBehaviour
     {
         var targetRotation = Quaternion.Euler(new Vector3(_startRotation.x,
             _startRotation.y + _player.rotation.eulerAngles.y, _startRotation.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, startSpeed * Time.fixedDeltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _startSpeed * Time.fixedDeltaTime);
         transform.position = Vector3.Lerp(transform.position, _player.position + _player.rotation * _startOffset,
-            startSpeed * Time.fixedDeltaTime);
+            _startSpeed * Time.fixedDeltaTime);
 
-        startSpeed = Mathf.Min(_maxStartSpeed, startSpeed + Time.fixedDeltaTime);
+        _startSpeed = Mathf.Min(_maxStartSpeed, _startSpeed + Time.fixedDeltaTime);
         if (360f - (transform.rotation.eulerAngles - targetRotation.eulerAngles).magnitude < 0.1f &&
             (transform.position - _player.position + _startOffset).magnitude < 0.1f)
         {
             _isRotateToStart = false;
         }
     }
-
-    public void StartBattleCamera()
+    
+    private void StopRotating()
     {
-        _isRotateToBattle = true;
-        startSpeed = _minStartSpeed;
-    }
+        var targetPosition = _cameraTarget.rotation * _battleOffset + _cameraTarget.position;
+        var relativePos = _enemy.position - transform.position;
+        var targetRotation = Quaternion.LookRotation(relativePos, Vector3.up) *
+                             Quaternion.Euler(new Vector3(_battleRotationOffset, 0, 0));
+        
+        transform.position = Vector3.Lerp(transform.position, targetPosition, _stopMoveSpeed * Time.fixedDeltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _stopRotationSpeed * Time.fixedDeltaTime);
 
-    public IEnumerator EndBattleCamera()
-    {
-        _isRotateToBattle = false;
-        yield return new WaitForSeconds(_endBattleDelayTime);
-        _isRotateToStart = true;
-        startSpeed = _minStartSpeed;
-    }
+        _startSpeed = Mathf.Min(_maxStartSpeed, _startSpeed + Time.fixedDeltaTime);
 
-    public void SetFall(bool isFall) => _playerIsFall = isFall;
+        if ((transform.rotation.eulerAngles - targetRotation.eulerAngles).magnitude < 0.1f && Vector3.Distance(transform.position, targetPosition) < 0.1f)
+        {
+            _isStopRotating = false;
+        }
+    }
 
     private Quaternion GetRotation()
     {

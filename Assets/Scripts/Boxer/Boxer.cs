@@ -4,13 +4,13 @@ using Extensions;
 
 public abstract class Boxer : MonoBehaviour, IHitable
 {
-    private RagdollSystem _ragdollSystem;
-    internal BaseAnimation animationSystem;
+    protected internal RagdollSystem ragdollSystem;
+    protected internal BaseAnimation animationSystem;
     private Health _health;
 
     protected virtual void Awake()
     {
-        _ragdollSystem = GetComponent<RagdollSystem>();
+        ragdollSystem = GetComponent<RagdollSystem>();
         animationSystem = GetComponent<BaseAnimation>();
         gameObject.TryGetComponentInChildren(true, out _health);
     }

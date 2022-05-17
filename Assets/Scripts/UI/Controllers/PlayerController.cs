@@ -32,19 +32,25 @@ public class PlayerController : BaseController<JoyStickView>
     private void TouchClickInputProcess()
     {
         if (Input.GetMouseButtonDown(0))
-        {
-            _pressed = true;
-            ui.SetControllerPosition(Input.mousePosition);
-            OnMoveStarted?.Invoke();
-        }
+            TouchDown();
         else if (Input.GetMouseButtonUp(0))
-        {
-            _pressed = false;
-            ui.Hide();
-            OnMoveStopped?.Invoke();
-        }
+            TouchUp();
     }
 
+    private void TouchDown()
+    {
+        _pressed = true;
+        ui.SetControllerPosition(Input.mousePosition);
+        OnMoveStarted?.Invoke();
+    }
+
+    private void TouchUp()
+    {
+        _pressed = false;
+        ui.Hide();
+        OnMoveStopped?.Invoke();
+    }
+    
     private void TouchMoveInputProcess()
     {
         if(_pressed == false)
