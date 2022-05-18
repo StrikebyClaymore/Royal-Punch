@@ -1,7 +1,7 @@
-﻿namespace UI.Views
+﻿using UnityEngine;
+using UnityEngine.UI;
+
+public class BattleView : UIView
 {
-    public class BattleView
-    {
-        
-    }
+    [SerializeField] private Text _levelText;
 }

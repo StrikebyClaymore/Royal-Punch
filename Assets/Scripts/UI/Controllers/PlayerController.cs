@@ -24,9 +24,11 @@ public class PlayerController : BaseController<JoyStickView>
         TouchMoveInputProcess();
     }
 
-    public void LockInput(bool lockInput)
+    public void LockInput(bool lockInput, bool hide = false)
     {
         _lockInput = lockInput;
+        if (hide)
+            TouchUp();
     }
     
     private void TouchClickInputProcess()

@@ -147,7 +147,6 @@ namespace New
             var targetRotation = Quaternion.LookRotation(relativePos, Vector3.up);
             var rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
             transform.rotation = rotation;
-            _health.UpdateRotation();
         }
         
     }

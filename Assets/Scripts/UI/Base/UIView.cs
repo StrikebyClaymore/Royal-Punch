@@ -2,7 +2,7 @@
 
 public abstract class UIView : MonoBehaviour
 {
-    public void Show()
+    public virtual void Show()
     {
         gameObject.SetActive(true);
     }

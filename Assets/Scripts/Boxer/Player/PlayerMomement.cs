@@ -72,39 +72,46 @@ public class PlayerMomement : MonoBehaviour
 
         _legsTarget.localRotation = rotation;
     }
-    
+
     protected internal void ResetRotation()
     {
-        Debug.Log("RESET");
         _direction = Vector3.zero;
         _legsTarget.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
         _headTarget.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
-        _legsConst.data.offset = new Vector3(0, 35f, 0);
     }
+
+    protected internal void StopConst()
+    {
+        _legsConst.weight = 0;
+        _headConst.weight = 0;
+    }
+    
+    protected internal void StartConst()
+    {
+        _legsConst.weight = 1;
+        _headConst.weight = 1;
+    } 
     
     private void SetDirection(Vector3 direction)
     {
         if(_character.enabled == false)
             return;
-        Debug.Log("DIR");
         _direction = direction;
         _player.animationSystem.SetDirection(direction.x, direction.z);
     }
 
     private void StartMove()
     {
-        Debug.Log("STR");
-        _legsConst.data.offset = Vector3.zero;
         _player.animationSystem.StartMove();
         GameManager.Camera.StartRotate();
+        StartConst();
     }
     
     private void StopMove()
     {
-        Debug.Log("STP");
-        ResetRotation();
         _player.animationSystem.StopMove();
         GameManager.Camera.StartStopRotate();
+        StopConst();
     }
     
     private void ConnectActions()

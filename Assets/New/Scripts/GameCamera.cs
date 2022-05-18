@@ -145,14 +145,11 @@ namespace New
            // transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, _smoothTime);
             transform.position = Vector3.Lerp(transform.position, targetPosition, _moveSpeed * Time.fixedDeltaTime);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
-            
-            Debug.Log($"{(transform.rotation.eulerAngles - targetRotation.eulerAngles).magnitude} {Vector3.Distance(transform.position, targetPosition)}");
-            
+
             startSpeed = Mathf.Min(_maxStartSpeed, startSpeed + Time.fixedDeltaTime);
             
             if ((transform.rotation.eulerAngles - targetRotation.eulerAngles).magnitude < 0.1f && Vector3.Distance(transform.position, targetPosition) < 0.1f)
             {
-                Debug.Log("STOP ROTATE");
                 _isSmoothRotate = false;
             }
         }

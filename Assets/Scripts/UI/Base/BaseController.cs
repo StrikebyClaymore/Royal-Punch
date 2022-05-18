@@ -19,4 +19,10 @@ public abstract class BaseController : MonoBehaviour
 public abstract class BaseController<T> : BaseController where T : UIView
 {
     [SerializeField] protected T ui;
+
+    public override void Activate()
+    {
+        base.Activate();
+        ui.Show();
+    }
 }
