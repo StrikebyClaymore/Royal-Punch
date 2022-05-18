@@ -10,6 +10,7 @@ public abstract class RagdollSystem : MonoBehaviour
     [SerializeField] private Transform _armature;
     protected Rigidbody[] bones;
     private Collider[] _colliders;
+    [SerializeField] protected Rigidbody chestRb;
     
     [HideInInspector]
     public bool isActive;
@@ -22,10 +23,7 @@ public abstract class RagdollSystem : MonoBehaviour
         _colliders = _armature.GetComponentsInChildren<Collider>();
     }
 
-    public virtual void KnockOut(float force)
-    {
-        
-    }
+    public virtual void KnockOut(float force, bool standUp = false) { }
     
     protected void Toggle(bool enable)
     {

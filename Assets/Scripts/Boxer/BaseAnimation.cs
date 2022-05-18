@@ -57,7 +57,7 @@ public abstract class BaseAnimation : MonoBehaviour
         foreach (var parameter in animator.parameters)
             animator.SetBool(parameter.name, false);
     }
-    
+
     public void AddAnimationCompletedEvent(int layerIdx, float percentPassed = 0)
     {
         _animDuration = GetAnimationTime(layerIdx);
@@ -71,5 +71,5 @@ public abstract class BaseAnimation : MonoBehaviour
         OnAnimationCompleted?.Invoke();
     }
 
-    private float GetAnimationTime(int layerIdx) => animator.GetCurrentAnimatorStateInfo(layerIdx).length;
+    public float GetAnimationTime(int layerIdx) => animator.GetCurrentAnimatorStateInfo(layerIdx).length;
 }

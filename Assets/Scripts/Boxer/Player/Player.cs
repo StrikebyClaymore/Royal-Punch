@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : Boxer
 {
     protected internal PlayerAnimation animationSystem;
     protected internal PlayerMomement movement;
+    
+    private const float EndDelay = 0.3f;
+    private const float EndBattleDelay = 80f;
 
     protected override void Awake()
     {
@@ -23,7 +28,43 @@ public class Player : Boxer
     {
         if (Input.GetMouseButtonDown(1))
         {
-            ragdollSystem.KnockOut(25000f);
+            ragdollSystem.KnockOut(25000f, true);
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+    }
+
+    public void StartBattle()
+    {
+        health.Toggle(true);
+    }
+    
+    public IEnumerator Win()
+    {
+        GameManager.Win = true;
+        GameManager.PlayerController.LockInput(true, true);
+        health.Toggle(false);
+        yield return new WaitForSeconds(EndDelay);
+        movement.StopConst();
+        animationSystem.StartWin();
+        animationSystem.OnAnimationCompleted += WinCompleted;
+        animationSystem.AddAnimationCompletedEvent(0, EndBattleDelay);
+    }
+
+    private void WinCompleted()
+    {
+        GameManager.Camera.StartEndBattleCamera();
+        GameManager.RootMenu.ChangeController(RootMenu.ControllerTypes.End);
+    }
+    
+    public IEnumerator Lose()
+    {
+        GameManager.Win = false;
+        GameManager.PlayerController.LockInput(true, true);
+        yield return new WaitForSeconds(EndDelay);
+        GameManager.RootMenu.ChangeController(RootMenu.ControllerTypes.End);
     }
 }

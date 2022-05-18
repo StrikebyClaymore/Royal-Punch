@@ -6,7 +6,6 @@ public class PlayerRagdollSystem : RagdollSystem
     private Player _boxer;
     private Quaternion[] rotations;
     [SerializeField] private Transform _hips;
-    [SerializeField] private Rigidbody _chestRb;
     [SerializeField] private Transform _cameraTarget;
     private Vector3 _hipsPosition;
     [SerializeField] private float _rotationSpeed = 5;
@@ -28,13 +27,6 @@ public class PlayerRagdollSystem : RagdollSystem
         StartCoroutine(SaveRagdollBones());
     }
 
-    private IEnumerator SaveRagdollBones() // Сделать чтобы перед началом раунда чел становился в позу и она сохранялась
-    {
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        UpdateRagdollBones();
-    }
-    
     private void FixedUpdate()
     {
         if (isActive)
@@ -55,16 +47,19 @@ public class PlayerRagdollSystem : RagdollSystem
         }
     }
 
-    public override void KnockOut(float force)
+    public override void KnockOut(float force, bool standUp = false)
     {
         character.enabled = false;
         _boxer.movement.ResetRotation();
         animation.StopPunch();
         Toggle(true);
         StartCoroutine(ToggleAnimator(0, false));
-        _chestRb.velocity = new Vector3(0, 0.02f, 0);
-        _chestRb.AddForce(-transform.forward * force);  
-        StartCoroutine(StartStandUp());
+        chestRb.velocity = new Vector3(0, 0.02f, 0);
+        chestRb.AddForce(-transform.forward * force);  
+        if(standUp)
+            StartCoroutine(StartStandUp());
+        else
+            StartCoroutine(GameManager.Player.Lose());
     }
 
     private IEnumerator StartStandUp()
@@ -79,12 +74,20 @@ public class PlayerRagdollSystem : RagdollSystem
     private IEnumerator StandUp()
     {
         yield return new WaitForSeconds(_standUpTime);
+        _boxer.movement.StartConst();
         animation.Toggle(true);
         animation.StartIdle(true);
         transform.position = _cameraTarget.position + new Vector3(0, 0.5f, 0);
         _cameraTarget.localPosition = Vector3.zero;
         character.enabled = true;
         GameManager.PlayerController.LockInput(false);
+    }
+    
+    private IEnumerator SaveRagdollBones() // Сделать чтобы перед началом раунда чел становился в позу и она сохранялась
+    {
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        UpdateRagdollBones();
     }
     
     private void UpdateRagdollBones()

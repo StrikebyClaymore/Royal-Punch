@@ -10,6 +10,7 @@ public abstract class BaseAttack : MonoBehaviour
     [SerializeField] private Hand _leftHand;
     [SerializeField] private Hand _rightHand;
     [SerializeField] private int _damage = 10;
+    [SerializeField] private float _knockOutForce = 25000f;
     protected bool finishPunch = false;
     
     private void Awake()
@@ -32,8 +33,12 @@ public abstract class BaseAttack : MonoBehaviour
     {
         if(hand.Body is null)
             return;
-
-        hand.Body.GetHit(transform.position, _damage);
+        
+        if(finishPunch)
+            hand.Body.KnockOut(_knockOutForce, _damage);
+        else
+            hand.Body.GetHit(transform.position, _damage);
+        
         if (hand.Body.IsLastHit(_damage))
         {
             finishPunch = true;

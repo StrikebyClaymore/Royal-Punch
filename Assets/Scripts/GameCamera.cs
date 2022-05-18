@@ -33,7 +33,6 @@ public class GameCamera : MonoBehaviour
     private bool _isStopRotating;
     /*private Vector3 _velocity = Vector3.zero;
     [SerializeField] private float _smoothTime = 0.3f;*/
-    [SerializeField] private float _endBattleDelayTime = 1f;
 
     private void Awake()
     {
@@ -49,11 +48,17 @@ public class GameCamera : MonoBehaviour
         _battleOffset = _battlePosition - _player.position;
 
         _battleRotationOffset = Quaternion.Angle(Quaternion.Euler(_battleRotation), _enemy.rotation);
-        
-        GameManager.PlayerController.LockInput(false);
+
+        /*_isRotateToStart = false;
+        _isRotateToBattle = false;
         GameManager.BattleIsStarted = true;
         transform.position = _battlePosition;
-        transform.rotation = Quaternion.Euler(new Vector3(45, 0, 0));
+        transform.rotation = Quaternion.Euler(_battleRotation);
+        GameManager.PlayerController.LockInput(false);*/
+        
+        transform.position = _startPosition;
+        transform.rotation = Quaternion.Euler(_startRotation);
+        
         _battleRotationOffset = Quaternion.Angle(transform.rotation, GetRotation());
     }
 
@@ -87,12 +92,13 @@ public class GameCamera : MonoBehaviour
     {
         _isRotateToBattle = true;
         _startSpeed = _minStartSpeed;
+        GameManager.RootMenu.ChangeController(RootMenu.ControllerTypes.Battle);
+        GameManager.Player.StartBattle();
     }
 
-    public IEnumerator EndBattleCamera()
+    public void StartEndBattleCamera()
     {
         _isRotateToBattle = false;
-        yield return new WaitForSeconds(_endBattleDelayTime);
         _isRotateToStart = true;
         _startSpeed = _minStartSpeed;
     }
@@ -116,7 +122,7 @@ public class GameCamera : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, _battlePosition, _startSpeed * Time.fixedDeltaTime);
         _startSpeed = Mathf.Min(_maxStartSpeed, _startSpeed + Time.deltaTime);
 
-        if (360f - (transform.rotation.eulerAngles - targetRotation.eulerAngles).magnitude < 0.1f &&
+        if ((transform.rotation.eulerAngles - targetRotation.eulerAngles).magnitude < 0.1f &&
             (transform.position - _battlePosition).magnitude < 0.1f)
         {
             _battleRotationOffset = Quaternion.Angle(transform.rotation, GetRotation());
