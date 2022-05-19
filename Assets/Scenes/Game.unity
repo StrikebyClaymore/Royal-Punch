@@ -1299,7 +1299,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 3797998411632335337}
         m_MethodName: StartSuperAttackPressed
         m_Mode: 3
         m_Arguments:
@@ -11928,7 +11928,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 3797998411632335337}
         m_MethodName: StartSuperAttackPressed
         m_Mode: 3
         m_Arguments:
@@ -12122,6 +12122,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693850842746734005, guid: 0bb1c0bd89fcaef428622320f590fb2c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3693850843140576159, guid: 0bb1c0bd89fcaef428622320f590fb2c,
         type: 3}
@@ -17341,7 +17346,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 643390290}
-  - component: {fileID: 643390319}
+  - component: {fileID: 643390292}
+  - component: {fileID: 643390293}
   - component: {fileID: 643390288}
   - component: {fileID: 643390289}
   m_Layer: 9
@@ -17351,7 +17357,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &643390319
+--- !u!114 &643390292
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -17360,11 +17366,53 @@ MonoBehaviour:
   m_GameObject: {fileID: 643390291}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9ab0792f2b3f5d40815329aa35cea5e, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b6ef77d81814b9582461eb8094cb1d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _circleCollder: {fileID: 643390288}
-  _conusCollder: {fileID: 643390289}
+  id: 1
+  _material: {fileID: 2100000, guid: ce1b4e0b714ded646a87ebd4cbb8e230, type: 2}
+  attackCollider: {fileID: 643390288}
+  _startNearPlane: 0
+  _endNearPlane: 0.5
+  _startFarPlane: 0.2
+  _endFarPlane: 1
+  chargingTime: 2
+  processSpeed: 4
+  force: 25000
+  damage: 20
+  _areaEffect: {fileID: 130702055}
+  _smokeEffect: {fileID: 395163890}
+  _startRadius: 2.2
+  _endRadius: 11.17
+--- !u!114 &643390293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643390291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fd2797ca3a4489095c23cdf96bf3c5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 3
+  _material: {fileID: 2100000, guid: 1ee991bcbfcb10c489d4f2b5851d70ba, type: 2}
+  attackCollider: {fileID: 643390289}
+  _startNearPlane: 0.1
+  _endNearPlane: 0.1
+  _startFarPlane: 0
+  _endFarPlane: 1
+  chargingTime: 2
+  processSpeed: 8
+  force: 25000
+  damage: 20
+  _areaEffect: {fileID: 867510697}
+  _smokeEffect: {fileID: 758786887}
+  _startColliderCenter: {x: 0, y: 1.5, z: 0}
+  _startColliderSize: {x: 2, y: 2, z: 3}
+  _endColliderCenter: {x: 0, y: 1.5, z: 11}
+  _endColliderSize: {x: 9.5, y: 2, z: 3}
 --- !u!1 &651117313
 GameObject:
   m_ObjectHideFlags: 0
@@ -23150,7 +23198,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &912815175
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24347,7 +24395,7 @@ MonoBehaviour:
   _background: {fileID: 1375736093}
   _foreground: {fileID: 651117315}
   _text: {fileID: 508155451}
-  _maxHeath: 3
+  _maxHeath: 100
 --- !u!1 &1349689644
 GameObject:
   m_ObjectHideFlags: 0
@@ -24655,22 +24703,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1437345174
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1437345179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 637d5ad82d4ce814a9597b853f64f324, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _circleArea: {fileID: 130702055}
-  _conusArea: {fileID: 867510697}
-  _circleSmoke: {fileID: 395163890}
-  _conusSmoke: {fileID: 758786887}
 --- !u!223 &1437345175
 Canvas:
   m_ObjectHideFlags: 0
@@ -24766,7 +24798,6 @@ GameObject:
   - component: {fileID: 1437345175}
   - component: {fileID: 1437345176}
   - component: {fileID: 1437345177}
-  - component: {fileID: 1437345174}
   m_Layer: 9
   m_Name: SuperAttackEffects
   m_TagString: Untagged
@@ -24818,7 +24849,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1453752889}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -38665,6 +38696,8 @@ MonoBehaviour:
   _rightHand: {fileID: 2351101310613068426}
   _damage: 1
   _knockOutForce: 25000
+  _SuperAttackCooldownTime: 4
+  _SuperAttackChargeTime: 2
   _rotationSpeed: 10
 --- !u!4 &3883529234032458542
 Transform:

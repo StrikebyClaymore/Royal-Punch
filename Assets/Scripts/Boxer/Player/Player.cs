@@ -21,7 +21,8 @@ public class Player : Boxer
 
     private void Start()
     {
-        base.ConnectActions();
+        ConnectActions();
+        animationSystem.StartFlexIdle();
     }
 
     private void Update()
@@ -37,9 +38,10 @@ public class Player : Boxer
         }
     }
 
-    public void StartBattle()
+    private void StartBattle()
     {
         health.Toggle(true);
+        animationSystem.StartIdle();
     }
     
     public IEnumerator Win()
@@ -66,5 +68,11 @@ public class Player : Boxer
         GameManager.PlayerController.LockInput(true, true);
         yield return new WaitForSeconds(EndDelay);
         GameManager.RootMenu.ChangeController(RootMenu.ControllerTypes.End);
+    }
+
+    protected override void ConnectActions()
+    {
+        base.ConnectActions();
+        GameManager.Camera.OnBattleStarting += StartBattle;
     }
 }

@@ -24,9 +24,14 @@ public class PlayerRagdollSystem : RagdollSystem
     {
         gameCamera = GameManager.Camera;
         Toggle(false);
-        StartCoroutine(SaveRagdollBones());
+        ConnectActions();
     }
 
+    private void StartBattle()
+    {
+        StartCoroutine(SaveRagdollBones());
+    }
+    
     private void FixedUpdate()
     {
         if (isActive)
@@ -102,5 +107,10 @@ public class PlayerRagdollSystem : RagdollSystem
     {
         yield return new WaitForSeconds(time);
         animation.Toggle(enable);
+    }
+    
+    private void ConnectActions()
+    {
+        GameManager.Camera.OnBattleStarting += StartBattle;
     }
 }

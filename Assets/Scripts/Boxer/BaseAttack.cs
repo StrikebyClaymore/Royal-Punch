@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Boxer))]
 public abstract class BaseAttack : MonoBehaviour
 {
-    private Boxer _boxer;
+    protected Boxer boxer;
     private AttackRangeDetector _attackRangeDetector;
     [SerializeField] private Hand _leftHand;
     [SerializeField] private Hand _rightHand;
@@ -13,9 +13,9 @@ public abstract class BaseAttack : MonoBehaviour
     [SerializeField] private float _knockOutForce = 25000f;
     protected bool finishPunch = false;
     
-    private void Awake()
+    protected virtual void Awake()
     {
-        _boxer = GetComponent<Boxer>();
+        boxer = GetComponent<Boxer>();
         gameObject.TryGetComponentInChildren(true, out _attackRangeDetector);
     }
 
@@ -42,8 +42,8 @@ public abstract class BaseAttack : MonoBehaviour
         if (hand.Body.IsLastHit(_damage))
         {
             finishPunch = true;
-            _boxer.animationSystem.StopPunch();
-            _boxer.animationSystem.FinishPunch();
+            boxer.animationSystem.StopPunch();
+            boxer.animationSystem.FinishPunch();
         }
     }
         
@@ -51,25 +51,28 @@ public abstract class BaseAttack : MonoBehaviour
     {
         Punch(_rightHand);
     }
+
+    protected virtual void StartBattle() { }
     
     private void TargetEnterRange()
     {
         //_boxer.animationSystem.StopIdle();
         if(finishPunch == false)
-            _boxer.animationSystem.StartPunch();
+            boxer.animationSystem.StartPunch();
         else
-            _boxer.animationSystem.FinishPunch();
+            boxer.animationSystem.FinishPunch();
     }
 
     private void TargetExitRange()
     {
-        _boxer.animationSystem.StopPunch();
-        _boxer.animationSystem.StartIdle();
+        boxer.animationSystem.StopPunch();
+        boxer.animationSystem.StartIdle();
     }
 
     protected virtual void ConnectActions()
     {
         _attackRangeDetector.OnTargetEnterRange += TargetEnterRange;
         _attackRangeDetector.OnTargetExitRange += TargetExitRange;
+        GameManager.Camera.OnBattleStarting += StartBattle;
     }
 }

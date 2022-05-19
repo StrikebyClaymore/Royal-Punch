@@ -58,7 +58,7 @@ public abstract class BaseAnimation : MonoBehaviour
             animator.SetBool(parameter.name, false);
     }
 
-    public void AddAnimationCompletedEvent(int layerIdx, float percentPassed = 0)
+    public void AddAnimationCompletedEvent(int layerIdx = 0, float percentPassed = 0)
     {
         _animDuration = GetAnimationTime(layerIdx);
         var secondsPassed = (_animDuration / 100) * percentPassed;

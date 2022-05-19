@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
@@ -34,6 +35,8 @@ public class GameCamera : MonoBehaviour
     /*private Vector3 _velocity = Vector3.zero;
     [SerializeField] private float _smoothTime = 0.3f;*/
 
+    public Action OnBattleStarting;
+    
     private void Awake()
     {
         gameCamera = GetComponent<Camera>();
@@ -93,7 +96,7 @@ public class GameCamera : MonoBehaviour
         _isRotateToBattle = true;
         _startSpeed = _minStartSpeed;
         GameManager.RootMenu.ChangeController(RootMenu.ControllerTypes.Battle);
-        GameManager.Player.StartBattle();
+        //GameManager.Player.StartBattle();
     }
 
     public void StartEndBattleCamera()
@@ -128,6 +131,7 @@ public class GameCamera : MonoBehaviour
             _battleRotationOffset = Quaternion.Angle(transform.rotation, GetRotation());
             _isRotateToBattle = false;
             GameManager.BattleIsStarted = true;
+            OnBattleStarting?.Invoke();
             GameManager.PlayerController.LockInput(false);
         }
     }
