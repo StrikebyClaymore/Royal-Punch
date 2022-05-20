@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class EnemyRagdollSystem : RagdollSystem
+﻿public class EnemyRagdollSystem : RagdollSystem
 {
     private void Start()
     {

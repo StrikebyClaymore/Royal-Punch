@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.Animations.Rigging;using UnityEngine.UIElements;
+using UnityEngine.Animations.Rigging;
 
 [RequireComponent(typeof(Player),
     typeof(CharacterController))]
