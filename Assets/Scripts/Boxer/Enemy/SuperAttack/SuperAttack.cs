@@ -22,6 +22,7 @@ public abstract class SuperAttack : MonoBehaviour
     [SerializeField] protected float processSpeed = 1f;
     [SerializeField] protected float force = 25000f;
     [SerializeField] protected int damage = 20;
+    [SerializeField] protected float damageMultiply = 1.5f;
 
     public Action OnAttack;
 
@@ -38,6 +39,11 @@ public abstract class SuperAttack : MonoBehaviour
     public virtual void SetColliderActive()
     {
         attackCollider.enabled = true;
+    }
+    
+    public void SetDamage(int value)
+    {
+        damage = (int) (value * damageMultiply);
     }
     
     public virtual void Process(EnemyAttack.SuperStates state)

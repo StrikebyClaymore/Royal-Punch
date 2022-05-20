@@ -39,6 +39,7 @@ public class ConusAttack : SuperAttack
 
     protected override void ResetCollider()
     {
+        _collider.enabled = false;
         _collider.center = _startColliderCenter;
         _collider.size = _startColliderSize;
     }

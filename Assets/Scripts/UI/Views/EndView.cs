@@ -34,6 +34,11 @@ public class EndView : UIView
         }
         base.Show();
     }
+
+    public void UpdateCoins(int value)
+    {
+        _coinsText.text = value.ToString();
+    }
     
     private void ClaimPressed() => OnClaimPressed?.Invoke();
 }

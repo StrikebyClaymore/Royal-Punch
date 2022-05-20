@@ -1,11 +1,28 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class StartController : BaseController<StartView>
 {
+    private Store _store;
+
+    private void Awake()
+    {
+        _store = new Store();
+    }
+
     private void Start()
     {
         ConnectActions();
+    }
+
+    public override void Activate()
+    {
+        base.Activate();
+        foreach (var upgrade in _store.GetData())
+            ui.UpdateButton(upgrade.Key, upgrade.Value);
+        ui.UpdateCoins();
+        ui.ToggleUpgrades(_store.CanBuy());
     }
 
     private void Update()
@@ -16,19 +33,16 @@ public class StartController : BaseController<StartView>
         }
     }
 
-    private void UpgradeHealth()
+    private void Upgrade(Store.Upgrades type)
     {
-        
+        ui.UpdateButton(type, _store.Buy(type));
+        ui.UpdateCoins();
+        ui.ToggleUpgrades(_store.CanBuy());
     }
 
-    private void UpgradeStrength()
-    {
-        
-    }
-    
     private void ConnectActions()
     {
-        ui.OnHealthPressed += UpgradeHealth;
-        ui.OnStrengthPressed += UpgradeStrength;
+        ui.OnHealthPressed += Upgrade;
+        ui.OnStrengthPressed += Upgrade;
     }
 }

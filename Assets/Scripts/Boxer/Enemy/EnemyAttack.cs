@@ -42,7 +42,7 @@ public class EnemyAttack : BaseAttack
 
     private void Start()
     {
-        base.ConnectActions();
+        ConnectActions();
         _player = GameManager.Player.transform;
     }
 
@@ -65,7 +65,8 @@ public class EnemyAttack : BaseAttack
     {
         ChangeSuperState(SuperStates.None);
         _superAttackTimer.Disable();
-        _currentSuperAttack.SetActive(false);
+        if(_currentSuperAttack)
+            _currentSuperAttack.SetActive(false);
     }
 
     public void StartChargeSuper(float animationPercentPassed)
@@ -82,6 +83,15 @@ public class EnemyAttack : BaseAttack
     {
         base.StartBattle();
         _superAttackTimer.Enable();
+    }
+
+    protected internal override void SetDamage(int value)
+    {
+        base.SetDamage(value);
+        foreach (var super in _superAttacks)
+        {
+            super.SetDamage(value);
+        }
     }
 
     private void StartSuperAttackPressed(int id)
@@ -156,6 +166,7 @@ public class EnemyAttack : BaseAttack
         boxer.animationSystem.OnAnimationCompleted -= TriedEnd;
         _superAttackTimer.Time = _SuperAttackCooldownTime;
         _superAttackTimer.Enable();
+        attackRangeDetector.CastTrigger();
     }
     
     private void ChangeSuperState(SuperStates newState) => _superState = newState;

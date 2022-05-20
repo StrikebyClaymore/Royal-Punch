@@ -7,6 +7,7 @@ public abstract class Boxer : MonoBehaviour, IHitable
     protected internal RagdollSystem ragdollSystem;
     protected internal BaseAnimation animationSystem;
     protected Health health;
+    [SerializeField] protected BoxerConfig config;
 
     protected virtual void Awake()
     {
@@ -27,6 +28,8 @@ public abstract class Boxer : MonoBehaviour, IHitable
     }
 
     public bool IsLastHit(int damage) => health.IsLastHp(damage);
+
+    protected virtual void ApplyUpgrades() { }
     
     protected virtual void Die()
     {

@@ -6,7 +6,7 @@ public class PlayerAttack : BaseAttack
     
     private void Start()
     {
-        base.ConnectActions();
+        ConnectActions();
     }
     
     protected override void Punch(Hand hand)

@@ -39,7 +39,6 @@ namespace New
         {
             if(other.gameObject.TryGetComponent<IHitable>(out var player))
             {
-                Debug.Log("TRIGGER");
                 _circleCollder.enabled = false;
                 _conusCollder.enabled = false;
                 player.KnockOut(25000f);

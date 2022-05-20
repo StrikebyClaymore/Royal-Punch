@@ -3,7 +3,7 @@
 public class Enemy : Boxer
 {
     private EnemyAttack _attack;
-    
+
     protected override void Awake()
     {
         base.Awake();
@@ -16,9 +16,34 @@ public class Enemy : Boxer
        ConnectActions();
     }
 
+    public int GetDestroyedHp() => health.GetDestroyedHp();
+    
     private void StartBattle()
     {
+        ApplyUpgrades();
         health.Toggle(true);
+    }
+
+    protected override void ApplyUpgrades()
+    {
+        var level = GameManager.GameData.level;
+        var newHealth = config.defaultHealth;
+        var addHealth = config.startAddHealth;
+        for (int i = 2; i <= level; i++)
+        {
+            newHealth += addHealth;
+            addHealth += config.upAddHealth;
+        }
+        health.SetMaxHealth(newHealth);
+        
+        var newDamage = config.defaultDamage;
+        var addDamage = config.startAddDamage;
+        for (int i = 2; i <= level; i++)
+        {
+            newDamage += addDamage;
+            addDamage += config.upAddDamage;
+        }
+        _attack.SetDamage(newDamage);
     }
     
     protected override void Die()

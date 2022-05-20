@@ -5,6 +5,7 @@ public abstract class RagdollSystem : MonoBehaviour
 {
     protected BaseAnimation animation;
     protected CharacterController character;
+    protected CapsuleCollider hitCollider;
     protected GameCamera gameCamera;
 
     [SerializeField] private Transform _armature;
@@ -19,6 +20,7 @@ public abstract class RagdollSystem : MonoBehaviour
     {
         animation = GetComponent<BaseAnimation>();
         character = GetComponent<CharacterController>();
+        hitCollider = GetComponent<CapsuleCollider>();
         bones = _armature.GetComponentsInChildren<Rigidbody>();
         _colliders = _armature.GetComponentsInChildren<Collider>();
     }

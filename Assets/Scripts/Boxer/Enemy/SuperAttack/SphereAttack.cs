@@ -33,6 +33,7 @@ public class SphereAttack : SuperAttack
 
     protected override void ResetCollider()
     {
+        _collider.enabled = false;
         _collider.radius = _startRadius;
     }
 }

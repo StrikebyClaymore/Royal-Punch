@@ -1,18 +1,19 @@
-﻿using System;
-using System.Security.Claims;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
-public class EndController : BaseController<EndView>
+﻿public class EndController : BaseController<EndView>
 {
     private void Start()
     {
         ConnectActions();
     }
 
+    public override void Activate()
+    {
+        base.Activate();
+        ui.UpdateCoins(GameManager.AddCoins());
+    }
+
     private void Claim()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        GameManager.EndBattle();
     }
     
     private void ConnectActions()

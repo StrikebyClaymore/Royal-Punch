@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerRagdollSystem : RagdollSystem
@@ -13,6 +14,8 @@ public class PlayerRagdollSystem : RagdollSystem
     [SerializeField] private float _standUpTime;
     [SerializeField] private float _knockOutTime;
 
+    public Action OnStandUp;
+    
     protected override void Awake()
     {
         base.Awake();
@@ -86,6 +89,7 @@ public class PlayerRagdollSystem : RagdollSystem
         _cameraTarget.localPosition = Vector3.zero;
         character.enabled = true;
         GameManager.PlayerController.LockInput(false);
+        _boxer._attack.attackRangeDetector.CastTrigger();
     }
     
     private IEnumerator SaveRagdollBones() // Сделать чтобы перед началом раунда чел становился в позу и она сохранялась

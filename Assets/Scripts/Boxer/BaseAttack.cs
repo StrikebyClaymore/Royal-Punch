@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class BaseAttack : MonoBehaviour
 {
     protected Boxer boxer;
-    private AttackRangeDetector _attackRangeDetector;
+    protected internal AttackRangeDetector attackRangeDetector;
     [SerializeField] private Hand _leftHand;
     [SerializeField] private Hand _rightHand;
     [SerializeField] private int _damage = 10;
@@ -16,7 +16,7 @@ public abstract class BaseAttack : MonoBehaviour
     protected virtual void Awake()
     {
         boxer = GetComponent<Boxer>();
-        gameObject.TryGetComponentInChildren(true, out _attackRangeDetector);
+        gameObject.TryGetComponentInChildren(true, out attackRangeDetector);
     }
 
     public void LeftPunch()
@@ -53,10 +53,15 @@ public abstract class BaseAttack : MonoBehaviour
     }
 
     protected virtual void StartBattle() { }
-    
-    private void TargetEnterRange()
+
+    protected internal virtual void SetDamage(int value) => _damage = value;
+
+    public void TargetEnterRange()
     {
-        //_boxer.animationSystem.StopIdle();
+        Debug.Log("ENTER IN " + name);
+        //boxer.animationSystem.StopIdle();
+        /*if(_rightHand.Body == null && _leftHand.Body == null)
+            return;*/
         if(finishPunch == false)
             boxer.animationSystem.StartPunch();
         else
@@ -65,14 +70,15 @@ public abstract class BaseAttack : MonoBehaviour
 
     private void TargetExitRange()
     {
+        Debug.Log("EXIT IN " + name);
         boxer.animationSystem.StopPunch();
         boxer.animationSystem.StartIdle();
     }
 
     protected virtual void ConnectActions()
     {
-        _attackRangeDetector.OnTargetEnterRange += TargetEnterRange;
-        _attackRangeDetector.OnTargetExitRange += TargetExitRange;
+        attackRangeDetector.OnTargetEnterRange += TargetEnterRange;
+        attackRangeDetector.OnTargetExitRange += TargetExitRange;
         GameManager.Camera.OnBattleStarting += StartBattle;
     }
 }

@@ -39,7 +39,15 @@ public class Health : MonoBehaviour
     }
 
     public bool IsLastHp(int damage) => _health - damage <= 0;
-    
+
+    public int GetDestroyedHp() => _maxHeath - _health;
+
+    protected internal void SetMaxHealth(int value)
+    {
+        _maxHeath = value;
+        _health = _maxHeath;
+    }
+
     public void Toggle(bool enable)
     {
         gameObject.SetActive(enable);
