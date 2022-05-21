@@ -1445,7 +1445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: ce1b4e0b714ded646a87ebd4cbb8e230, type: 2}
+  m_Material: {fileID: 2100000, guid: 9f4f86d23de1d8543aca83c2460ddebc, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
@@ -17545,7 +17545,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 1
-  _material: {fileID: 2100000, guid: ce1b4e0b714ded646a87ebd4cbb8e230, type: 2}
+  _material: {fileID: 2100000, guid: 9f4f86d23de1d8543aca83c2460ddebc, type: 2}
   attackCollider: {fileID: 643390288}
   _startNearPlane: 0
   _endNearPlane: 0.5
@@ -17555,6 +17555,7 @@ MonoBehaviour:
   processSpeed: 4
   force: 25000
   damage: 20
+  damageMultiply: 1.5
   _areaEffect: {fileID: 130702055}
   _smokeEffect: {fileID: 395163890}
   _startRadius: 2.2
@@ -17572,7 +17573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 3
-  _material: {fileID: 2100000, guid: 1ee991bcbfcb10c489d4f2b5851d70ba, type: 2}
+  _material: {fileID: 2100000, guid: 1431a1547c409d1439fc1a1d432f7244, type: 2}
   attackCollider: {fileID: 643390289}
   _startNearPlane: 0.1
   _endNearPlane: 0.1
@@ -17582,6 +17583,7 @@ MonoBehaviour:
   processSpeed: 8
   force: 25000
   damage: 20
+  damageMultiply: 1.5
   _areaEffect: {fileID: 867510697}
   _smokeEffect: {fileID: 758786887}
   _startColliderCenter: {x: 0, y: 1.5, z: 0}
@@ -23377,7 +23379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 1ee991bcbfcb10c489d4f2b5851d70ba, type: 2}
+  m_Material: {fileID: 2100000, guid: 1431a1547c409d1439fc1a1d432f7244, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
@@ -37176,7 +37178,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2093447649
 Transform:
   m_ObjectHideFlags: 0
@@ -37223,7 +37225,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d7144918121582e488515dd9b11325e6, type: 2}
+  - {fileID: 2100000, guid: eddd417e30f3e6a4b98dc8016f27bb60, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -37643,6 +37645,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1476949941}
     m_Modifications:
+    - target: {fileID: 757859643151596659, guid: 47291a872de69674cba50236095f66d5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 11e930b2984a9c445b76987f65ebcf4b, type: 2}
+    - target: {fileID: 757859643353247290, guid: 47291a872de69674cba50236095f66d5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 11e930b2984a9c445b76987f65ebcf4b, type: 2}
+    - target: {fileID: 757859643493579830, guid: 47291a872de69674cba50236095f66d5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 572823e3f577a1d418ac0ace3379b653, type: 2}
+    - target: {fileID: 757859643547142872, guid: 47291a872de69674cba50236095f66d5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 572823e3f577a1d418ac0ace3379b653, type: 2}
     - target: {fileID: 757859643595269012, guid: 47291a872de69674cba50236095f66d5,
         type: 3}
       propertyPath: m_Name
@@ -37703,6 +37725,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 757859644202710238, guid: 47291a872de69674cba50236095f66d5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 11e930b2984a9c445b76987f65ebcf4b, type: 2}
+    - target: {fileID: 757859644289709155, guid: 47291a872de69674cba50236095f66d5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 11e930b2984a9c445b76987f65ebcf4b, type: 2}
+    - target: {fileID: 757859644292651217, guid: 47291a872de69674cba50236095f66d5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 572823e3f577a1d418ac0ace3379b653, type: 2}
+    - target: {fileID: 757859644579227808, guid: 47291a872de69674cba50236095f66d5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 11e930b2984a9c445b76987f65ebcf4b, type: 2}
+    - target: {fileID: 757859644801478686, guid: 47291a872de69674cba50236095f66d5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 11e930b2984a9c445b76987f65ebcf4b, type: 2}
+    - target: {fileID: 757859645055973207, guid: 47291a872de69674cba50236095f66d5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 11e930b2984a9c445b76987f65ebcf4b, type: 2}
+    - target: {fileID: 757859645145412708, guid: 47291a872de69674cba50236095f66d5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 11e930b2984a9c445b76987f65ebcf4b, type: 2}
+    - target: {fileID: 757859645151788618, guid: 47291a872de69674cba50236095f66d5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 572823e3f577a1d418ac0ace3379b653, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47291a872de69674cba50236095f66d5, type: 3}
 --- !u!4 &782273323568150449
@@ -37764,7 +37826,7 @@ Animator:
   m_GameObject: {fileID: 2769701967079664542}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 266b48edddf88844bb960cdb6da5dec1, type: 3}
-  m_Controller: {fileID: 9100000, guid: 05ff6e3ab21bbac46a53ef90b02bc7f0, type: 2}
+  m_Controller: {fileID: 9100000, guid: 41cde8114b8eb8447a8f2a43564f16bb, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -38862,7 +38924,7 @@ Animator:
   m_GameObject: {fileID: 3797998411632335333}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 05da530a745754c6f92938aa24d5d3a2, type: 3}
-  m_Controller: {fileID: 9100000, guid: 512d17251d882344683b7ad9998385db, type: 2}
+  m_Controller: {fileID: 9100000, guid: 04781c5aeb8ae9e4e88afed50a04e6d8, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1

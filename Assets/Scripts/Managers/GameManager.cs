@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -12,11 +9,7 @@ public class GameManager : MonoBehaviour
     public static Enemy Enemy = null;
     public static PlayerController PlayerController = null;
     public static GameData GameData;
-    
-    public static New.Player Player2 = null;
-    public static New.Enemy Enemy2 = null;
-    public static New.GameCamera Camera2 = null;
-    
+
     public static bool BattleIsStarted;
     public static bool Win;
     private const int WinReward = 50;

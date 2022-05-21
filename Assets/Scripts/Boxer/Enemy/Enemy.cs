@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class Enemy : Boxer
+﻿public class Enemy : Boxer
 {
     private EnemyAttack _attack;
 

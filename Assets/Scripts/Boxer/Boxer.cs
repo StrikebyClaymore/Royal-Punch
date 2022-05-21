@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Extensions;
 
 public abstract class Boxer : MonoBehaviour, IHitable
