@@ -23,7 +23,7 @@ public abstract class BaseAnimation : MonoBehaviour
     public void StartPunch() => animator.SetBool(_punch, true);
 
     public void StopPunch() => animator.SetBool(_punch, false);
-    
+
     public void FinishPunch() => animator.Play(_finishPunch);
 
     public void StartIdle(bool noExitTime = false)

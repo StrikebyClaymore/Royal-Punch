@@ -11,6 +11,7 @@ public abstract class BaseAttack : MonoBehaviour
     [SerializeField] private int _damage = 10;
     [SerializeField] private float _knockOutForce = 25000f;
     protected bool finishPunch = false;
+    [SerializeField] protected int attackLayer;
     
     protected virtual void Awake()
     {
@@ -18,21 +19,21 @@ public abstract class BaseAttack : MonoBehaviour
         gameObject.TryGetComponentInChildren(true, out attackRangeDetector);
     }
 
-    public void LeftPunch()
+    public void LeftPunchEvent()
     {
-        Punch(_leftHand);
+        //Punch(_leftHand);
     }
         
-    public void RightPunch()
+    public void RightPunchEvent()
     {
-        Punch(_rightHand);
+        //Punch(_rightHand);
     }
 
     protected virtual void Punch(Hand hand)
     {
-        if(hand.Body is null)
+        if (hand.Body == null)
             return;
-        
+
         if(finishPunch)
             hand.Body.KnockOut(_knockOutForce, _damage);
         else
@@ -55,13 +56,9 @@ public abstract class BaseAttack : MonoBehaviour
 
     protected internal virtual void SetDamage(int value) => _damage = value;
 
-    public void TargetEnterRange()
+    private void TargetEnterRange()
     {
-        Debug.Log("ENTER IN " + name);
-        //boxer.animationSystem.StopIdle();
-        /*if(_rightHand.Body == null && _leftHand.Body == null)
-            return;*/
-        if(finishPunch == false)
+        if (finishPunch == false)
             boxer.animationSystem.StartPunch();
         else
             boxer.animationSystem.FinishPunch();
@@ -69,9 +66,7 @@ public abstract class BaseAttack : MonoBehaviour
 
     private void TargetExitRange()
     {
-        Debug.Log("EXIT IN " + name);
         boxer.animationSystem.StopPunch();
-        boxer.animationSystem.StartIdle();
     }
 
     protected virtual void ConnectActions()

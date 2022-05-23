@@ -1,12 +1,16 @@
-﻿public class Enemy : Boxer
+﻿using UnityEngine;
+
+public class Enemy : Boxer
 {
     private EnemyAttack _attack;
+    protected internal AnimationRigging animationRigging;
 
     protected override void Awake()
     {
         base.Awake();
         GameManager.Enemy = this;
         _attack = GetComponent<EnemyAttack>();
+        animationRigging = GetComponent<AnimationRigging>();
     }
 
     private void Start()
@@ -14,6 +18,12 @@
        ConnectActions();
     }
 
+    public override void GetHit(Vector3 hitPoint, int damage)
+    {
+        health.ApplyDamage(damage);
+        animationRigging.AddHitReaction(hitPoint);
+    }
+    
     public int GetDestroyedHp() => health.GetDestroyedHp();
     
     private void StartBattle()

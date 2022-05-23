@@ -15,7 +15,7 @@ public abstract class Boxer : MonoBehaviour, IHitable
         gameObject.TryGetComponentInChildren(true, out health);
     }
 
-    public void GetHit(Vector3 hitPoint, int damage)
+    public virtual void GetHit(Vector3 hitPoint, int damage)
     {
         health.ApplyDamage(damage);
     }

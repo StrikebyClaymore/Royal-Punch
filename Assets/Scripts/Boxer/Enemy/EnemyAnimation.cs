@@ -4,7 +4,6 @@
 
     public void StartSuper(int attackNumber)
     {
-        StopPunch();
         animator.Play(Super+attackNumber);
         //animator.SetTrigger(Super+attackNumber);   
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyAttack : BaseAttack
 {
+    private Enemy _boxer;
     private Transform _player;
     private SuperAttack[] _superAttacks;
     private SuperAttack _currentSuperAttack;
@@ -30,6 +31,8 @@ public class EnemyAttack : BaseAttack
     protected override void Awake()
     {
         base.Awake();
+
+        _boxer = (boxer as Enemy);
         
         _superAttackTimer = gameObject.AddComponent<Timer>();
         _superAttackTimer.Init(transform, _SuperAttackCooldownTime, SuperAttackTimerTimeOut);
@@ -127,6 +130,7 @@ public class EnemyAttack : BaseAttack
     {
         ChangeSuperState(SuperStates.Continue);
         yield return new WaitForEndOfFrame();
+        _boxer.animationRigging.SetWeight(0);
         boxer.animationSystem.AddAnimationCompletedEvent(SuperAttackLayer, _animationPercentPassed);
     }
 
@@ -139,11 +143,13 @@ public class EnemyAttack : BaseAttack
     private void SuperAttack()
     {
         ChangeSuperState(SuperStates.AttackEnd);
+        _boxer.animationRigging.SetWeight(1);
     }
 
     private void SuperAttackEnd()
     {
         ChangeSuperState(SuperStates.Tried);
+        _boxer.animationRigging.ToggleTried(true);
         _animationPercentPassed = 0;
         boxer.animationSystem.OnAnimationCompleted -= SuperAttackEnd;
         _currentSuperAttack.OnAttack -= SuperAttack;
@@ -160,6 +166,7 @@ public class EnemyAttack : BaseAttack
     private void TriedEnd()
     {
         ChangeSuperState(SuperStates.None);
+        _boxer.animationRigging.ToggleTried(false);
         boxer.animationSystem.OnAnimationCompleted -= TriedEnd;
         _superAttackTimer.Time = _SuperAttackCooldownTime;
         _superAttackTimer.Enable();

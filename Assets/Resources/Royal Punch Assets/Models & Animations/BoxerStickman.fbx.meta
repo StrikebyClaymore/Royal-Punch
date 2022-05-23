@@ -120,21 +120,14 @@ ModelImporter:
       curves: []
       events:
       - time: 0.48290598
-        functionName: LeftPunch
+        functionName: LeftPunchEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.7823485
-        functionName: RightPunch
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0
-        functionName: StartPunch
+        functionName: RightPunchEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -372,21 +365,14 @@ ModelImporter:
       curves: []
       events:
       - time: 0.42932892
-        functionName: LeftPunch
+        functionName: LeftPunchEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.7708919
-        functionName: RightPunch
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0
-        functionName: StartPunch
+        functionName: RightPunchEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
