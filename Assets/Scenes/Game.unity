@@ -40481,7 +40481,7 @@ MonoBehaviour:
   _damage: 1
   _knockOutForce: 25000
   attackLayer: 0
-  _SuperAttackCooldownTime: 55
+  _SuperAttackCooldownTime: 6.5
   _SuperAttackChargeTime: 2
   _rotationSpeed: 4
 --- !u!114 &3797998411632335338
