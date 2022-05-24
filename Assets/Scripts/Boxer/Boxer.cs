@@ -26,7 +26,13 @@ public abstract class Boxer : MonoBehaviour, IHitable
         health.ApplyDamage(damage);
     }
 
-    public bool IsLastHit(int damage) => health.IsLastHp(damage);
+    public bool IsLastHit(int damage)
+    {
+        var isLast = health.IsLastHp(damage);
+        if(isLast)
+            Lock();
+        return isLast;
+    }
 
     protected virtual void ApplyUpgrades() { }
     
@@ -35,6 +41,12 @@ public abstract class Boxer : MonoBehaviour, IHitable
         health.Toggle(false);
     }
 
+    protected internal virtual void Lock()
+    {
+        animationSystem.StartIdle(true);
+        //animationSystem.StopPunch();
+    }
+    
     protected virtual void ConnectActions()
     {
         health.OnDie += Die;

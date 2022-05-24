@@ -23,7 +23,7 @@ public class Player : Boxer
     private void Start()
     {
         ConnectActions();
-        animationSystem.StartFlexIdle();
+        animationSystem.PlayStartAnim();
     }
 
     private void Update()
@@ -50,6 +50,7 @@ public class Player : Boxer
         animationSystem.StartWin();
         animationSystem.OnAnimationCompleted += WinCompleted;
         animationSystem.AddAnimationCompletedEvent(0, EndBattleDelay);
+        GameManager.SaluteEffect.StartSalute();
     }
 
     private void WinCompleted()
@@ -97,7 +98,13 @@ public class Player : Boxer
         }
         _attack.SetDamage(newDamage);
     }
-    
+
+    protected internal override void Lock()
+    {
+        base.Lock();
+        GameManager.PlayerController.LockInput(true);
+    }
+
     protected override void ConnectActions()
     {
         base.ConnectActions();

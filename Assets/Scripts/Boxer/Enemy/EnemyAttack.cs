@@ -103,6 +103,7 @@ public class EnemyAttack : BaseAttack
     private void StartSuperAttack()
     {
         ChangeSuperState(SuperStates.Start);
+        boxer.animationSystem.StopPunch();
         _superAttackTimer.Time = _currentSuperAttack.chargingTime;
         _currentSuperAttack.OnAttack += SuperAttack;
         (boxer.animationSystem as EnemyAnimation)?.StartSuper(_currentSuperAttack.id);
@@ -170,9 +171,13 @@ public class EnemyAttack : BaseAttack
         boxer.animationSystem.OnAnimationCompleted -= TriedEnd;
         _superAttackTimer.Time = _SuperAttackCooldownTime;
         _superAttackTimer.Enable();
+    }
+    private void PlayerStandUp()
+    {
         attackRangeDetector.CastTrigger();
     }
-    
+
+
     private void ChangeSuperState(SuperStates newState) => _superState = newState;
     
     private void Rotate()
@@ -184,4 +189,15 @@ public class EnemyAttack : BaseAttack
     }
 
     private SuperAttack GetSuper(int id) => _superAttacks.First(a => a.id == id);
+
+    protected override void ConnectActions()
+    {
+        base.ConnectActions();
+        ((PlayerRagdollSystem) GameManager.Player.ragdollSystem).OnStandUp += PlayerStandUp;
+    }
+
+    public void Lock()
+    {
+        _boxer.Lock();
+    }
 }

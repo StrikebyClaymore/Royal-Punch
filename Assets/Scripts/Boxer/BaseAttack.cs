@@ -1,4 +1,5 @@
-﻿using Extensions;
+﻿using System.Collections;
+using Extensions;
 using UnityEngine;
 
 [RequireComponent(typeof(Boxer))]
@@ -21,12 +22,12 @@ public abstract class BaseAttack : MonoBehaviour
 
     public void LeftPunchEvent()
     {
-        //Punch(_leftHand);
+        Punch(_leftHand);
     }
         
     public void RightPunchEvent()
     {
-        //Punch(_rightHand);
+        Punch(_rightHand);
     }
 
     protected virtual void Punch(Hand hand)
@@ -38,16 +39,24 @@ public abstract class BaseAttack : MonoBehaviour
             hand.Body.KnockOut(_knockOutForce, _damage);
         else
             hand.Body.GetHit(transform.position, _damage);
+
+        if (!hand.Body.IsLastHit(_damage))
+            return;
         
-        if (hand.Body.IsLastHit(_damage))
-        {
-            finishPunch = true;
-            boxer.animationSystem.StopPunch();
-            boxer.animationSystem.FinishPunch();
-        }
+        Debug.Log("LAST PUNCH");
+        finishPunch = true;
+        StartCoroutine(CheckLock());
     }
-        
-    public void FinishPunch()
+
+    private IEnumerator CheckLock()
+    {
+        yield return new WaitForEndOfFrame();
+        boxer.Lock();
+        yield return new WaitForSeconds(0.1f);
+        boxer.animationSystem.FinishPunch();
+    }
+    
+    public void FinishPunchEvent()
     {
         Punch(_rightHand);
     }

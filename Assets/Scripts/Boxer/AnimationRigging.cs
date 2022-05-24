@@ -40,5 +40,8 @@ public class AnimationRigging : MonoBehaviour
 
     public void ToggleTried(bool enable) =>_tried = enable;
 
-    public void SetWeight(int weight) => headConstraint.weight = weight;
+    public void SetWeight(int weight)
+    {
+        headConstraint.weight = weight;
+    }
 }

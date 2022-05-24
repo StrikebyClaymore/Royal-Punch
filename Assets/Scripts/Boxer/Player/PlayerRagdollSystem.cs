@@ -15,7 +15,7 @@ public class PlayerRagdollSystem : RagdollSystem
     [SerializeField] private float _knockOutTime;
 
     public Action OnStandUp;
-    
+
     protected override void Awake()
     {
         base.Awake();
@@ -82,14 +82,14 @@ public class PlayerRagdollSystem : RagdollSystem
     private IEnumerator StandUp()
     {
         yield return new WaitForSeconds(_standUpTime);
-        _boxer.movement.StartConst();
+        //_boxer.movement.StartConst();
         animation.Toggle(true);
         animation.StartIdle(true);
         transform.position = _cameraTarget.position + new Vector3(0, 0.5f, 0);
         _cameraTarget.localPosition = Vector3.zero;
         character.enabled = true;
         GameManager.PlayerController.LockInput(false);
-        _boxer._attack.attackRangeDetector.CastTrigger();
+        OnStandUp?.Invoke();
     }
     
     private IEnumerator SaveRagdollBones() // Сделать чтобы перед началом раунда чел становился в позу и она сохранялась

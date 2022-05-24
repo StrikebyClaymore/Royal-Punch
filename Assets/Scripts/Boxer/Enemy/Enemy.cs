@@ -60,6 +60,12 @@ public class Enemy : Boxer
         _attack.CancelSuperAttack();
     }
 
+    protected internal override void Lock()
+    {
+        base.Lock();
+        animationRigging.SetWeight(0);
+    }
+
     protected override void ConnectActions()
     {
         base.ConnectActions();

@@ -9,10 +9,12 @@ public class GameManager : MonoBehaviour
     public static Enemy Enemy = null;
     public static PlayerController PlayerController = null;
     public static GameData GameData;
+    public static SaluteEffect SaluteEffect;
 
     public static bool BattleIsStarted;
     public static bool Win;
     private const int WinReward = 50;
+    public static bool FirstTry = true;
 
     private void Awake()
     {
@@ -32,6 +34,7 @@ public class GameManager : MonoBehaviour
     public static void EndBattle()
     {
         GameData.Save();
+        FirstTry = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

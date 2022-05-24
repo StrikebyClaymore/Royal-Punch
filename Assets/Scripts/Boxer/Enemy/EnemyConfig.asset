@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3f6ad00394a44baadd57262a4a32c86, type: 3}
   m_Name: EnemyConfig
   m_EditorClassIdentifier: 
-  defaultHealth: 30000
+  defaultHealth: 300
   startAddHealth: 60
   upAddHealth: 30
   defaultDamage: 10

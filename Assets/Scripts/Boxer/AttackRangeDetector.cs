@@ -22,18 +22,19 @@ public class AttackRangeDetector : MonoBehaviour
         var hits = Physics.SphereCastAll(position, _collider.radius * _boxer.transform.localScale.x, transform.forward,
             0, _collideLayers);
 
-        var o = transform.forward * (_collider.radius * _boxer.transform.localScale.x);
-
+        //var o = transform.forward * (_collider.radius * _boxer.transform.localScale.x);
+        //Debug.DrawLine(position, position + o, Color.red, 10f);
+        
         foreach (var hit in hits)
         {
-            if (hit.collider.gameObject.TryGetComponent<IHitable>(out var body))
+            if (hit.collider.isTrigger == false && hit.collider.gameObject.TryGetComponent<IHitable>(out var body))
             {
                 _body = body;
                 OnTargetEnterRange?.Invoke();
                 return;
             }
         }
-
+        
         if (_body != null)
         {
             _body = null;

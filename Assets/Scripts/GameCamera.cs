@@ -51,15 +51,15 @@ public class GameCamera : MonoBehaviour
 
         _battleRotationOffset = Quaternion.Angle(Quaternion.Euler(_battleRotation), _enemy.rotation);
 
-        _isRotateToStart = false;
+        /*_isRotateToStart = false;
         _isRotateToBattle = false;
         GameManager.BattleIsStarted = true;
         transform.position = _battlePosition;
         transform.rotation = Quaternion.Euler(_battleRotation);
-        GameManager.PlayerController.LockInput(false);
+        GameManager.PlayerController.LockInput(false);*/
         
-       /*transform.position = _startPosition;
-        transform.rotation = Quaternion.Euler(_startRotation);*/
+       transform.position = _startPosition;
+        transform.rotation = Quaternion.Euler(_startRotation);
         
         _battleRotationOffset = Quaternion.Angle(transform.rotation, GetRotation());
     }

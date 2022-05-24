@@ -16,4 +16,12 @@ public class PlayerAttack : BaseAttack
         base.Punch(hand);
         _hitParticles.StartHitParticles(hand.type);
     }
+
+    private void  StandUp() => attackRangeDetector.CastTrigger();
+    
+    protected override void ConnectActions()
+    {
+        base.ConnectActions();
+        ((PlayerRagdollSystem) boxer.ragdollSystem).OnStandUp += StandUp;
+    }
 }

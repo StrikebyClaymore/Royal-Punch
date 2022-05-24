@@ -207,7 +207,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.5025442
-        functionName: FinishPunch
+        functionName: FinishPunchEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

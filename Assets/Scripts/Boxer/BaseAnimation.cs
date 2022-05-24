@@ -20,7 +20,11 @@ public abstract class BaseAnimation : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    public void StartPunch() => animator.SetBool(_punch, true);
+    public void StartPunch()
+    {
+        animator.ResetTrigger(_idleNoExit);
+        animator.SetBool(_punch, true);
+    }
 
     public void StopPunch() => animator.SetBool(_punch, false);
 
@@ -31,6 +35,7 @@ public abstract class BaseAnimation : MonoBehaviour
         animator.SetBool(_idle, true);
         if (noExitTime)
         {
+            StopPunch();
             animator.SetTrigger(_idleNoExit);
         }
     }
