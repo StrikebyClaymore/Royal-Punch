@@ -26,10 +26,22 @@ public class StartController : BaseController<StartView>
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+#if UNITY_EDITOR
+        if (Input.GetMouseButtonDown(0) && EventSystem.current.IsPointerOverGameObject() == false)
         {
             GameManager.StartBattle();
         }
+#endif
+#if UNITY_ANDROID
+        foreach (var touch in Input.touches)
+        {
+            var id = touch.fingerId;
+            if (touch.phase == TouchPhase.Began && EventSystem.current.IsPointerOverGameObject(id) == false)
+            {
+                GameManager.StartBattle();
+            }
+        }
+#endif
     }
 
     private void Upgrade(Store.Upgrades type)

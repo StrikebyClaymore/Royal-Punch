@@ -6,6 +6,7 @@ public class GameCamera : MonoBehaviour
 {
     [HideInInspector]
     public Camera gameCamera;
+    public Camera uiCamera;
     private Transform _player;
     private Transform _enemy;
 

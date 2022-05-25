@@ -37,6 +37,10 @@ public class Player : Boxer
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            StartCoroutine(Win());
+        }
     }
 
     public IEnumerator Win()

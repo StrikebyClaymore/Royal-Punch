@@ -43,7 +43,6 @@ public abstract class BaseAttack : MonoBehaviour
         if (!hand.Body.IsLastHit(_damage))
             return;
         
-        Debug.Log("LAST PUNCH");
         finishPunch = true;
         StartCoroutine(CheckLock());
     }
