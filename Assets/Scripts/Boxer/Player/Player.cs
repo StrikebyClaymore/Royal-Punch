@@ -49,6 +49,7 @@ public class Player : Boxer
         GameManager.GameData.level++;
         GameManager.PlayerController.LockInput(true, true);
         health.Toggle(false);
+        _attack.comboEffect.Hide();
         yield return new WaitForSeconds(EndDelay);
         movement.StopConst();
         animationSystem.StartWin();
@@ -67,6 +68,7 @@ public class Player : Boxer
     {
         GameManager.Win = false;
         GameManager.PlayerController.LockInput(true, true);
+        _attack.comboEffect.Hide();
         yield return new WaitForSeconds(EndDelay);
         GameManager.RootMenu.ChangeController(RootMenu.ControllerTypes.End);
     }

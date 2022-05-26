@@ -36,8 +36,6 @@ public class ComboEffect : MonoBehaviour
         _defaultFireScale = _fire.localScale;
 
         Hide();
-        _comboCount = 2;
-        IncreaseCombo();
     }
     
     private void LateUpdate()
@@ -137,7 +135,7 @@ public class ComboEffect : MonoBehaviour
         UpdateText();
     }
 
-    private void Hide()
+    public void Hide()
     {
         _text.color = _defaultColor;
         _fire.localScale = _defaultFireScale;

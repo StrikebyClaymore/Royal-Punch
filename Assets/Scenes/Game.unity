@@ -32871,6 +32871,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 1495996064}
   _text: {fileID: 205591773}
+  _fire: {fileID: 1495996063}
   _colorBMultiplier: 0.85
   _colorGMultiplier: 0.45
 --- !u!1 &1804979773

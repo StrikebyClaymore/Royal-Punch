@@ -3,7 +3,7 @@
 public class PlayerAttack : BaseAttack
 {
     [SerializeField] private HitParticles _hitParticles;
-    [SerializeField] private ComboEffect _comboEffect;
+    [SerializeField] protected internal ComboEffect comboEffect;
     
     private void Start()
     {
@@ -15,14 +15,14 @@ public class PlayerAttack : BaseAttack
         if (hand.Body == null)
             return;
 
-        var damageWithCombo = (int)(damage * _comboEffect.GetComboCount() * boxer.config.comboDamageMultiplier);
+        var damageWithCombo = (int)(damage * comboEffect.GetComboCount() * boxer.config.comboDamageMultiplier);
 
         if(finishPunch)
             hand.Body.KnockOut(knockOutForce, damageWithCombo);
         else
         {
             hand.Body.GetHit(transform.position, damageWithCombo);
-            _comboEffect.IncreaseCombo();
+            comboEffect.IncreaseCombo();
             _hitParticles.StartHitParticles(hand.type);
         }
 
