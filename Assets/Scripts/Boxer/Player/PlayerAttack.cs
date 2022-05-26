@@ -3,6 +3,7 @@
 public class PlayerAttack : BaseAttack
 {
     [SerializeField] private HitParticles _hitParticles;
+    [SerializeField] private ComboEffect _comboEffect;
     
     private void Start()
     {
@@ -11,10 +12,25 @@ public class PlayerAttack : BaseAttack
     
     protected override void Punch(Hand hand)
     {
-        if(hand.Body is null)
+        if (hand.Body == null)
             return;
-        base.Punch(hand);
-        _hitParticles.StartHitParticles(hand.type);
+
+        var damageWithCombo = (int)(damage * _comboEffect.GetComboCount() * boxer.config.comboDamageMultiplier);
+
+        if(finishPunch)
+            hand.Body.KnockOut(knockOutForce, damageWithCombo);
+        else
+        {
+            hand.Body.GetHit(transform.position, damageWithCombo);
+            _comboEffect.IncreaseCombo();
+            _hitParticles.StartHitParticles(hand.type);
+        }
+
+        if (!hand.Body.IsLastHit(damageWithCombo))
+            return;
+        
+        finishPunch = true;
+        StartCoroutine(CheckLock());
     }
 
     private void  StandUp() => attackRangeDetector.CastTrigger();

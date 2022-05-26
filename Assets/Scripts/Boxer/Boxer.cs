@@ -6,7 +6,7 @@ public abstract class Boxer : MonoBehaviour, IHitable
     protected internal RagdollSystem ragdollSystem;
     protected internal BaseAnimation animationSystem;
     protected Health health;
-    [SerializeField] protected BoxerConfig config;
+    [SerializeField] protected internal BoxerConfig config;
 
     protected virtual void Awake()
     {

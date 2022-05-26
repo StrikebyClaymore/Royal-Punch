@@ -22,7 +22,7 @@ public class Timer : MonoBehaviour
     public void Init(Transform parent, float time, Action action, bool autoReset = false, bool enable = false)
     {
         _parent = parent;
-        transform.parent = _parent;
+        transform.SetParent(_parent);;
         Time = time;
         TimeLeft = _time;
         Action += action;

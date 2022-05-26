@@ -10,4 +10,6 @@ public class BoxerConfig : ScriptableObject
     public int defaultDamage = 10;
     public int startAddDamage = 5;
     public int upAddDamage = 2;
+
+    public float comboDamageMultiplier = 1f;
 }

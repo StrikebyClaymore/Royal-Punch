@@ -171,13 +171,14 @@ public class EnemyAttack : BaseAttack
         boxer.animationSystem.OnAnimationCompleted -= TriedEnd;
         _superAttackTimer.Time = _SuperAttackCooldownTime;
         _superAttackTimer.Enable();
+        attackRangeDetector.CastTrigger();
     }
+    
     private void PlayerStandUp()
     {
         attackRangeDetector.CastTrigger();
     }
-
-
+    
     private void ChangeSuperState(SuperStates newState) => _superState = newState;
     
     private void Rotate()

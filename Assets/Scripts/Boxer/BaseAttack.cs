@@ -9,8 +9,8 @@ public abstract class BaseAttack : MonoBehaviour
     protected internal AttackRangeDetector attackRangeDetector;
     [SerializeField] private Hand _leftHand;
     [SerializeField] private Hand _rightHand;
-    [SerializeField] private int _damage = 10;
-    [SerializeField] private float _knockOutForce = 25000f;
+    [SerializeField] private protected int damage = 10;
+    [SerializeField] private protected float knockOutForce = 25000f;
     protected bool finishPunch = false;
     [SerializeField] protected int attackLayer;
     
@@ -36,18 +36,18 @@ public abstract class BaseAttack : MonoBehaviour
             return;
 
         if(finishPunch)
-            hand.Body.KnockOut(_knockOutForce, _damage);
+            hand.Body.KnockOut(knockOutForce, damage);
         else
-            hand.Body.GetHit(transform.position, _damage);
+            hand.Body.GetHit(transform.position, damage);
 
-        if (!hand.Body.IsLastHit(_damage))
+        if (!hand.Body.IsLastHit(damage))
             return;
         
         finishPunch = true;
         StartCoroutine(CheckLock());
     }
 
-    private IEnumerator CheckLock()
+    protected IEnumerator CheckLock()
     {
         yield return new WaitForEndOfFrame();
         boxer.Lock();
@@ -62,7 +62,7 @@ public abstract class BaseAttack : MonoBehaviour
 
     protected virtual void StartBattle() { }
 
-    protected internal virtual void SetDamage(int value) => _damage = value;
+    protected internal virtual void SetDamage(int value) => damage = value;
 
     private void TargetEnterRange()
     {
