@@ -1,19 +1,27 @@
-﻿using System;
+﻿using System.Collections;
 using TMPro;
 using UnityEngine;
 
 public class ComboEffect : MonoBehaviour
 {
     private Camera _camera;
+    [SerializeField] private Animator _animator;
     [SerializeField] private TextMeshProUGUI _text;
+    [SerializeField] private Transform _fire;
     private Timer _timer;
     private const float FirstDecreaseTime = 2.5f;
     private const float DecreaseTime = 0.4f;
     [SerializeField] private float _colorBMultiplier = 3.33f;
     [SerializeField] private float _colorGMultiplier = 1.33f;
-    private int _comboCount = 0;
-    private int _comboCountFloat = 9;
-    private Vector3 _basePosition; 
+    private int _comboCount = 1;
+    private int _comboCountFloat;
+    private readonly Color _defaultColor = Color.white;
+    private Vector3 _basePosition;
+    private Vector3 _defaultFireScale;
+    private const float HideTime = 0.5f;
+    
+    private readonly int _fireDecrease = Animator.StringToHash("FireDecrease");
+    private readonly int _fireHide = Animator.StringToHash("FireHide");
 
     private void Awake()
     {
@@ -25,7 +33,11 @@ public class ComboEffect : MonoBehaviour
     {
         _camera = GameManager.Camera.gameCamera;
         _basePosition = transform.position;
+        _defaultFireScale = _fire.localScale;
+
         Hide();
+        _comboCount = 2;
+        IncreaseCombo();
     }
     
     private void LateUpdate()
@@ -39,8 +51,11 @@ public class ComboEffect : MonoBehaviour
     public void IncreaseCombo()
     {
         if (enabled == false)
+        {
             Show();
-        
+            return;
+        }
+
         _comboCountFloat++;
         if (_comboCountFloat == 10)
         {
@@ -55,6 +70,7 @@ public class ComboEffect : MonoBehaviour
     private void DecreaseCombo()
     {
         _comboCountFloat--;
+
         if (_comboCountFloat == -1)
         {
             _comboCountFloat = 9;
@@ -63,10 +79,14 @@ public class ComboEffect : MonoBehaviour
 
         if (_comboCount == 0 && _comboCountFloat == 9)
         {
-            Hide();
+            _comboCountFloat = 0;
+            _comboCount = 1;
+            _animator.Play(_fireHide);
+            StartCoroutine(StartHide());
             return;
         }
         
+        _animator.Play(_fireDecrease);
         UpdateText();
     }
 
@@ -119,10 +139,17 @@ public class ComboEffect : MonoBehaviour
 
     private void Hide()
     {
-        _text.color = new Color(1, 1, 1);
+        _text.color = _defaultColor;
+        _fire.localScale = _defaultFireScale;
         gameObject.SetActive(false);
         enabled = false;
-        _timer.Disable();
         ResetTimer();
+    }
+
+    private IEnumerator StartHide()
+    {
+        _timer.Disable();
+        yield return new WaitForSeconds(HideTime);
+        Hide();
     }
 }
